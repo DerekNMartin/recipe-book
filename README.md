@@ -2,9 +2,11 @@
 
 Built to catalog all the recipes my partner and I have cooked and enjoyed - without the nonsense.
 
-Created out of the necessity for simplicity. Various recipe website are either behind a paywall, clogged by advertisements, and/or include endless paragraphs of drivel for SEO purposes.
-
+Various recipe website are either behind a paywall, clogged by advertisements, and/or include endless paragraphs of drivel for SEO purposes.
 We just wanted a place to store our favourite recipes, so they're easy to find and come back to.
+
+![image](https://github.com/user-attachments/assets/8686d847-a012-4f8b-88de-3af21e41847b)
+
 
 ## Setup
 
