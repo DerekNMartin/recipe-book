@@ -2,7 +2,7 @@
 import useAuth from '@/composables/useAuth';
 
 const { isAuthenticated, useSignOut } = useAuth();
-const isAuthModalVisible = ref(isAuthenticated.value);
+const isAuthModalVisible = ref(!isAuthenticated.value);
 </script>
 
 <template>
@@ -29,6 +29,6 @@ const isAuthModalVisible = ref(isAuthenticated.value);
         >Sign Out</Button
       >
     </footer>
-    <SignInModal :visible="isAuthModalVisible" />
+    <AuthModal v-model:visible="isAuthModalVisible" />
   </main>
 </template>

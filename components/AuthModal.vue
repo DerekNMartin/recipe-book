@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import useAuth from '@/composables/useAuth';
 
-const { useSignIn, useSignUp } = useAuth();
+const { useSignIn } = useAuth();
 
-const authType = defineModel<'signIn' | 'signUp'>('type', {
-  default: 'signIn',
-});
-const isSignIn = computed(() => authType.value === 'signIn');
 const isVisible = defineModel('visible', { default: false });
 
 const email = ref('');
@@ -22,29 +18,21 @@ async function handleSignIn() {
     isVisible.value = false;
   }
 }
-
-async function handleCreateAccount() {
-  const { error } = await useSignUp(email.value, password.value);
-  if (error) {
-    errorMessage.value = error.message;
-  } else {
-    isVisible.value = false;
-  }
-}
-
-function changeModalAuthType() {
-  authType.value = isSignIn.value ? 'signUp' : 'signIn';
-}
 </script>
 
 <template>
   <Dialog
+    pt:mask:class="backdrop-blur-sm"
+    dismissableMask
+    :draggable="false"
     v-model:visible="isVisible"
     modal
-    :header="isSignIn ? 'Sign In' : 'Sign Up'"
-    :style="{ width: '25rem' }"
+    header="Sign In"
   >
     <div class="flex flex-col gap-4 mb-8">
+      <p class="text-sm text-neutral-500">
+        If you'd like to edit content, please sign in.
+      </p>
       <div class="flex items-center gap-4">
         <label for="email" class="font-semibold w-24">Email</label>
         <InputText
@@ -69,18 +57,11 @@ function changeModalAuthType() {
         {{ errorMessage }}
       </p>
     </div>
-    <div class="flex justify-between gap-2">
-      <Button
-        :label="isSignIn ? 'Sign Up' : 'Sign In'"
-        @click="changeModalAuthType"
-        severity="secondary"
-      ></Button>
-      <Button
-        class="flex-1"
-        type="button"
-        :label="isSignIn ? 'Sign In' : 'Sign Up'"
-        @click="isSignIn ? handleSignIn() : handleCreateAccount()"
-      ></Button>
-    </div>
+    <Button
+      class="w-full"
+      type="button"
+      label="Sign In"
+      @click="handleSignIn"
+    ></Button>
   </Dialog>
 </template>
