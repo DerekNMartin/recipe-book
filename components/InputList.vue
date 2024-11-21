@@ -101,7 +101,12 @@ async function handlePaste(event: ClipboardEvent) {
         icon="pi pi-plus"
       />
     </div>
-    <TransitionGroup name="fade" :class="listTypeClass" tag="ul">
+    <TransitionGroup
+      name="fade"
+      :class="listTypeClass"
+      class="flex flex-col gap-4"
+      tag="ul"
+    >
       <li
         v-for="(text, index) in items"
         :key="index"

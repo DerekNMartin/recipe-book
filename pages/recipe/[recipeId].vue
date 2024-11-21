@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import InputList from '@/components/InputList.vue';
 import useAuth from '@/composables/useAuth';
-
-type EditModeSection =
-  | 'title'
-  | 'description'
-  | 'ingredients'
-  | 'preparation'
-  | 'notes'
-  | null;
 
 const route = useRoute();
 const router = useRouter();
@@ -26,19 +17,12 @@ async function deleteRecipe() {
   router.replace('/');
 }
 
-const editModeSection = ref<EditModeSection>(null);
-function toggleEditMode(section: EditModeSection) {
-  editModeSection.value = editModeSection.value ? null : section;
-}
-
-async function saveChanges() {
+async function saveChanges(editedRecipeSection: Partial<typeof recipe.value>) {
+  const editRecipePayload = { ...recipe.value, ...editedRecipeSection };
   await $fetch(`/api/recipes/${recipeId.value}`, {
     method: 'put',
-    body: {
-      recipe: recipe.value,
-    },
+    body: { recipe: editRecipePayload },
   });
-  editModeSection.value = null;
 }
 </script>
 
@@ -68,71 +52,22 @@ async function saveChanges() {
       <p class="text-xl text-center">{{ recipe.description }}</p>
     </section>
     <div class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:px-8 gap-8">
-      <section>
-        <div class="flex gap-2 items-center mb-4">
-          <h3 class="text-2xl">Ingredients</h3>
-          <Button
-            icon="pi pi-pen-to-square"
-            text
-            rounded
-            aria-label="Edit"
-            @click="toggleEditMode('ingredients')"
-          />
-        </div>
-        <Transition mode="out-in" name="fade">
-          <div v-if="editModeSection === 'ingredients'">
-            <InputList listType="bullet" :items="recipe.ingredients" />
-            <Button
-              label="Save Changes"
-              class="mt-4 w-full"
-              @click="saveChanges"
-            />
-          </div>
-          <ul v-else-if="recipe.ingredients" class="list-disc list-inside">
-            <li
-              class="text-primary-700"
-              v-for="(ingredient, index) in recipe.ingredients"
-              :key="index"
-            >
-              {{ ingredient }}
-            </li>
-          </ul>
-        </Transition>
-      </section>
-      <section
+      <RecipeIngredients
+        :ingredients="recipe.ingredients"
+        @save="saveChanges"
+      />
+      <RecipePreparation
         class="sm:border-l-2 sm:border-b-0 border-b-2 border-solid border-primary-700 sm:pl-8 pb-8 sm:pb-0"
-      >
-        <h3 class="text-2xl mb-4">Preparation</h3>
-        <ul class="flex flex-col gap-8 text-lg">
-          <li
-            class="text-primary-700"
-            v-for="(step, index) in recipe.preparation"
-            :key="index"
-          >
-            <h3 class="text-4xl font-black mr-4 inline-block">
-              {{ index + 1 }}
-            </h3>
-            {{ step }}
-          </li>
-        </ul>
-      </section>
+        :steps="recipe.preparation"
+        @save="saveChanges"
+      />
     </div>
-    <section class="border-t-2 border-solid border-primary-700 pt-8">
-      <h3 class="text-2xl mb-4">Notes</h3>
-      <ul class="flex flex-col gap-8 text-lg">
-        <li
-          class="text-primary-700"
-          v-for="(note, index) in recipe.notes"
-          :key="index"
-        >
-          {{ note }}
-        </li>
-      </ul>
-    </section>
-    <section class="flex justify-end" v-if="isAuthenticated">
+    <RecipeNotes :notes="recipe.notes" @save="saveChanges" />
+    <section class="flex" v-if="isAuthenticated">
       <Button
         label="Delete Recipe"
         @click="deleteRecipe"
+        severity="danger"
         outlined
         size="small"
         class="w-fit"
