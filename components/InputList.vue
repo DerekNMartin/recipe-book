@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const newItem = defineModel<string>();
-const items = defineModel<string[]>('items');
+const items = defineModel<string[] | null>('items');
 
 const props = withDefaults(
   defineProps<{
@@ -26,15 +26,26 @@ const listTypeClass = computed(() => {
 
 function handleAdd() {
   if (!newItem.value) return;
-  items.value?.push(newItem.value);
+  if (isEditing.value) {
+    if (items.value?.length && editItemIndex.value !== null) {
+      items.value[editItemIndex.value] = newItem.value;
+      editItemIndex.value = null;
+    }
+  } else {
+    items.value?.push(newItem.value);
+  }
   newItem.value = '';
 }
 
+const editItemIndex = ref<number | null>(null);
+const isEditing = computed(
+  () => editItemIndex.value !== null && editItemIndex.value >= 0
+);
 function handleEdit(itemIndex: number) {
   const item = items.value && items.value[itemIndex];
   if (item) {
     newItem.value = item;
-    handleRemove(itemIndex);
+    editItemIndex.value = itemIndex;
   }
 }
 
@@ -79,17 +90,18 @@ async function handlePaste(event: ClipboardEvent) {
         v-model="newItem"
         @keyup.enter="handleAdd()"
         class="w-full"
+        size="small"
         @paste="handlePaste"
       />
       <Button
-        :label="buttonLabel || 'Add'"
+        :label="isEditing ? 'Update' : buttonLabel || 'Add'"
         size="small"
         class="h-fit min-w-fit"
         @click="handleAdd()"
         icon="pi pi-plus"
       />
     </div>
-    <ul :class="listTypeClass">
+    <TransitionGroup name="fade" :class="listTypeClass" tag="ul">
       <li
         v-for="(text, index) in items"
         :key="index"
@@ -105,6 +117,6 @@ async function handlePaste(event: ClipboardEvent) {
           ></i>
         </div>
       </li>
-    </ul>
+    </TransitionGroup>
   </div>
 </template>

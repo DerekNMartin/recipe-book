@@ -25,7 +25,7 @@ const isAuthModalVisible = ref(isAuthenticated.value);
       class="flex flex-1 place-content-end mt-8 w-full justify-between border-t-2 border-solid border-primary-700 pt-6"
     >
       <p>Made by Derek Martin</p>
-      <Button v-if="isAuthenticated" severity="secondary" @click="useSignOut"
+      <Button v-if="isAuthenticated" outlined @click="useSignOut"
         >Sign Out</Button
       >
     </footer>

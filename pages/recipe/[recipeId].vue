@@ -1,5 +1,15 @@
 <script setup lang="ts">
+import InputList from '@/components/InputList.vue';
 import useAuth from '@/composables/useAuth';
+
+type EditModeSection =
+  | 'title'
+  | 'description'
+  | 'ingredients'
+  | 'preparation'
+  | 'notes'
+  | null;
+
 const route = useRoute();
 const router = useRouter();
 const { isAuthenticated } = useAuth();
@@ -14,6 +24,21 @@ async function deleteRecipe() {
     method: 'delete',
   });
   router.replace('/');
+}
+
+const editModeSection = ref<EditModeSection>(null);
+function toggleEditMode(section: EditModeSection) {
+  editModeSection.value = editModeSection.value ? null : section;
+}
+
+async function saveChanges() {
+  await $fetch(`/api/recipes/${recipeId.value}`, {
+    method: 'put',
+    body: {
+      recipe: recipe.value,
+    },
+  });
+  editModeSection.value = null;
 }
 </script>
 
@@ -42,20 +67,39 @@ async function deleteRecipe() {
     <section class="border-y-2 border-solid border-primary-700 py-8">
       <p class="text-xl text-center">{{ recipe.description }}</p>
     </section>
-    <section class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:px-8 gap-8">
-      <div>
-        <h3 class="text-2xl mb-4">Ingredients</h3>
-        <ul v-if="recipe.ingredients" class="list-disc list-inside">
-          <li
-            class="text-primary-700"
-            v-for="(ingredient, index) in recipe.ingredients"
-            :key="index"
-          >
-            {{ ingredient }}
-          </li>
-        </ul>
-      </div>
-      <div
+    <div class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:px-8 gap-8">
+      <section>
+        <div class="flex gap-2 items-center mb-4">
+          <h3 class="text-2xl">Ingredients</h3>
+          <Button
+            icon="pi pi-pen-to-square"
+            text
+            rounded
+            aria-label="Edit"
+            @click="toggleEditMode('ingredients')"
+          />
+        </div>
+        <Transition mode="out-in" name="fade">
+          <div v-if="editModeSection === 'ingredients'">
+            <InputList listType="bullet" :items="recipe.ingredients" />
+            <Button
+              label="Save Changes"
+              class="mt-4 w-full"
+              @click="saveChanges"
+            />
+          </div>
+          <ul v-else-if="recipe.ingredients" class="list-disc list-inside">
+            <li
+              class="text-primary-700"
+              v-for="(ingredient, index) in recipe.ingredients"
+              :key="index"
+            >
+              {{ ingredient }}
+            </li>
+          </ul>
+        </Transition>
+      </section>
+      <section
         class="sm:border-l-2 sm:border-b-0 border-b-2 border-solid border-primary-700 sm:pl-8 pb-8 sm:pb-0"
       >
         <h3 class="text-2xl mb-4">Preparation</h3>
@@ -71,8 +115,8 @@ async function deleteRecipe() {
             {{ step }}
           </li>
         </ul>
-      </div>
-    </section>
+      </section>
+    </div>
     <section class="border-t-2 border-solid border-primary-700 pt-8">
       <h3 class="text-2xl mb-4">Notes</h3>
       <ul class="flex flex-col gap-8 text-lg">
