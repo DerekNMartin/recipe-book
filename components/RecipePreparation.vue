@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import useAuth from '@/composables/useAuth';
+
 export interface PreparationProps {
   steps?: string[] | null;
 }
 const props = defineProps<PreparationProps>();
 const emit = defineEmits(['save']);
+
+const { isAuthenticated } = useAuth();
 
 const editedSteps = ref(props.steps);
 
@@ -23,6 +27,7 @@ function handleSave() {
     <div class="flex gap-2 items-center mb-4">
       <h3 class="text-2xl">Preparation</h3>
       <Button
+        v-if="isAuthenticated"
         icon="pi pi-pen-to-square"
         text
         rounded
