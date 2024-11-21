@@ -1,19 +1,39 @@
 <script setup lang="ts">
-const { auth } = useSupabaseClient();
+import useAuth from '@/composables/useAuth';
 
+const { useSignIn, useSignUp } = useAuth();
+
+const authType = defineModel<'signIn' | 'signUp'>('type', {
+  default: 'signIn',
+});
+const isSignIn = computed(() => authType.value === 'signIn');
 const isVisible = defineModel('visible', { default: false });
 
 const email = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 async function handleSignIn() {
-  const { data, error } = await auth.signInWithPassword({
-    email: email.value,
-    password: password.value,
-  });
-  if (!error) {
+  errorMessage.value = '';
+  const { error } = await useSignIn(email.value, password.value);
+  if (error) {
+    errorMessage.value = error.message;
+  } else {
     isVisible.value = false;
   }
+}
+
+async function handleCreateAccount() {
+  const { error } = await useSignUp(email.value, password.value);
+  if (error) {
+    errorMessage.value = error.message;
+  } else {
+    isVisible.value = false;
+  }
+}
+
+function changeModalAuthType() {
+  authType.value = isSignIn.value ? 'signUp' : 'signIn';
 }
 </script>
 
@@ -21,38 +41,46 @@ async function handleSignIn() {
   <Dialog
     v-model:visible="isVisible"
     modal
-    header="Sign In"
+    :header="isSignIn ? 'Sign In' : 'Sign Up'"
     :style="{ width: '25rem' }"
   >
-    <h3 class="text-surface-500 dark:text-surface-400 block mb-8">Sign In</h3>
-    <div class="flex items-center gap-4 mb-4">
-      <label for="email" class="font-semibold w-24">Email</label>
-      <InputText
-        v-model="email"
-        id="email"
-        class="flex-auto"
-        autocomplete="off"
-        type="email"
-      />
+    <div class="flex flex-col gap-4 mb-8">
+      <div class="flex items-center gap-4">
+        <label for="email" class="font-semibold w-24">Email</label>
+        <InputText
+          v-model="email"
+          id="email"
+          class="flex-auto"
+          autocomplete="off"
+          type="email"
+        />
+      </div>
+      <div class="flex items-center gap-4">
+        <label for="password" class="font-semibold w-24">Password</label>
+        <InputText
+          v-model="password"
+          id="password"
+          class="flex-auto"
+          autocomplete="off"
+          type="password"
+        />
+      </div>
+      <p v-if="errorMessage" class="text-sm text-red-600">
+        {{ errorMessage }}
+      </p>
     </div>
-    <div class="flex items-center gap-4 mb-8">
-      <label for="password" class="font-semibold w-24">Password</label>
-      <InputText
-        v-model="password"
-        id="password"
-        class="flex-auto"
-        autocomplete="off"
-        type="password"
-      />
-    </div>
-    <div class="flex justify-end gap-2">
+    <div class="flex justify-between gap-2">
       <Button
-        type="button"
-        label="Cancel"
+        :label="isSignIn ? 'Sign Up' : 'Sign In'"
+        @click="changeModalAuthType"
         severity="secondary"
-        @click="isVisible = false"
       ></Button>
-      <Button type="button" label="Sign In" @click="handleSignIn"></Button>
+      <Button
+        class="flex-1"
+        type="button"
+        :label="isSignIn ? 'Sign In' : 'Sign Up'"
+        @click="isSignIn ? handleSignIn() : handleCreateAccount()"
+      ></Button>
     </div>
   </Dialog>
 </template>

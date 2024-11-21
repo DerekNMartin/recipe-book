@@ -60,6 +60,9 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@nuxt/fonts',
   ],
+  supabase: {
+    redirect: false,
+  },
   css: ['primeicons/primeicons.css'],
   primevue: {
     usePrimeVue: true,

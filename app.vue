@@ -8,23 +8,9 @@
  * - upload image and date when made/eaten
  * - auto-parse copy-pasted ingredients list and steps into array of strings
  */
-
-// TODO: Replace with server endpoint
-const user = useSupabaseUser();
-const isSignInModalVisible = ref(false);
-watch(
-  user,
-  () => {
-    if (!user.value) {
-      isSignInModalVisible.value = true;
-    }
-  },
-  { immediate: true }
-);
 </script>
 <template>
   <div>
-    <SignInModal :visible="isSignInModalVisible" />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

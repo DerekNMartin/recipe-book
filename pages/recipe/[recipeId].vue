@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import useAuth from '@/composables/useAuth';
 const route = useRoute();
 const router = useRouter();
+const { isAuthenticated } = useAuth();
 
 const recipeId = computed(() => route.params.recipeId);
 
@@ -83,7 +85,7 @@ async function deleteRecipe() {
         </li>
       </ul>
     </section>
-    <section class="flex justify-end">
+    <section class="flex justify-end" v-if="isAuthenticated">
       <Button
         label="Delete Recipe"
         @click="deleteRecipe"
@@ -94,4 +96,3 @@ async function deleteRecipe() {
     </section>
   </div>
 </template>
-<!-- bg: #fdf4e4 | #375da3 -->
