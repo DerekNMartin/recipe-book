@@ -35,6 +35,10 @@ h3 {
   font-family: 'Permanent Marker', sans-serif;
 }
 
+button.p-button {
+  @apply print:hidden;
+}
+
 .p-button-label {
   font-family: 'Montserrat', sans-serif;
 }

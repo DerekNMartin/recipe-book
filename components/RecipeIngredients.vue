@@ -40,7 +40,10 @@ function handleSave() {
         <InputList listType="bullet" :items="editedIngredients" />
         <Button label="Save Changes" class="mt-4 w-full" @click="handleSave" />
       </div>
-      <ul v-else class="list-disc list-inside flex flex-col gap-2">
+      <ul
+        v-else
+        class="list-disc list-inside flex flex-col gap-2 print:text-sm"
+      >
         <li
           class="text-primary-700"
           v-for="(ingredient, index) in ingredients"

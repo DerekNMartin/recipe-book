@@ -44,7 +44,7 @@ function handleSave() {
         />
         <Button label="Save Changes" class="mt-4 w-full" @click="handleSave" />
       </div>
-      <ul v-else class="flex flex-col gap-6 text-lg">
+      <ul v-else class="flex flex-col gap-6 text-lg print:text-base">
         <li
           class="text-primary-700"
           v-for="(step, index) in steps"

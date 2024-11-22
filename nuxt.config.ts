@@ -79,6 +79,9 @@ export default defineNuxtConfig({
           colors: {
             primary: colors.indigo,
           },
+          screens: {
+            print: { raw: 'print' },
+          },
         },
       },
     },

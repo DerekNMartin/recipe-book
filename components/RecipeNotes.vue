@@ -23,7 +23,7 @@ function handleSave() {
 </script>
 
 <template>
-  <section class="border-t-2 border-solid border-primary-700 pt-8">
+  <section>
     <div class="flex gap-2 items-center mb-4">
       <h3 class="text-2xl">Notes</h3>
       <Button
@@ -44,7 +44,7 @@ function handleSave() {
         />
         <Button label="Save Changes" class="mt-4 w-full" @click="handleSave" />
       </div>
-      <ul v-else class="flex flex-col gap-8 text-lg">
+      <ul v-else class="flex flex-col gap-8 text-lg print:text-base">
         <li
           class="text-primary-700"
           v-for="(note, index) in notes"

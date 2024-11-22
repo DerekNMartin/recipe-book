@@ -60,20 +60,28 @@ async function saveChanges(editedRecipeSection: Partial<typeof recipe.value>) {
       </div>
     </section>
     <section class="border-y-2 border-solid border-primary-700 py-8">
-      <p class="text-xl text-center">{{ recipe.description }}</p>
+      <p class="sm:text-xl text-center print:text-base">
+        {{ recipe.description }}
+      </p>
     </section>
-    <div class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:px-8 gap-8">
+    <div
+      class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:px-8 gap-8 print:grid-cols-1 print:px-0"
+    >
       <RecipeIngredients
         :ingredients="recipe.ingredients"
         @save="saveChanges"
       />
       <RecipePreparation
-        class="sm:border-l-2 sm:border-b-0 border-b-2 border-solid border-primary-700 sm:pl-8 pb-8 sm:pb-0"
+        class="sm:border-l-2 sm:border-t-0 border-t-2 border-solid border-primary-700 sm:pl-8 pt-8 sm:pt-0 print:border-l-0 print:pt-8 print:pl-0 print:border-t-2"
         :steps="recipe.preparation"
         @save="saveChanges"
       />
     </div>
-    <RecipeNotes :notes="recipe.notes" @save="saveChanges" />
+    <RecipeNotes
+      class="border-t-2 border-solid border-primary-700 pt-8"
+      :notes="recipe.notes"
+      @save="saveChanges"
+    />
     <section class="flex" v-if="isAuthenticated">
       <Button
         label="Delete Recipe"
