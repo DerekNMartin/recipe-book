@@ -9,6 +9,16 @@ const recipeId = computed(() => route.params.recipeId);
 
 const { data: recipe } = useFetch(`/api/recipes/${recipeId.value}`);
 
+const recipeRating = computed({
+  get() {
+    return recipe.value?.rating || 0;
+  },
+  set(newRating) {
+    if (recipe.value) recipe.value.rating = newRating;
+    saveChanges({ rating: newRating });
+  },
+});
+
 // TODO: Add confirmation
 async function deleteRecipe() {
   await $fetch(`/api/recipes/${recipeId.value}`, {
@@ -33,6 +43,7 @@ async function saveChanges(editedRecipeSection: Partial<typeof recipe.value>) {
         {{ recipe.title }}
       </h2>
       <img :src="recipe.image_url || ''" class="rounded-3xl max-h-64" />
+      <Rating v-model="recipeRating" class="flex gap-1" />
       <div class="flex gap-2">
         <p>{{ recipe.author }}</p>
         <a
