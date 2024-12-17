@@ -15,10 +15,15 @@ const isAuthModalVisible = ref(!isAuthenticated.value);
       <NuxtLink to="/">
         <h1 class="text-3xl font-bold text-primary-700">Recipes</h1>
       </NuxtLink>
-      <NuxtLink v-if="isAuthenticated" :to="{ name: 'recipe-new' }">
-        <Button>New Recipe</Button>
-      </NuxtLink>
-      <Button v-else @click="isAuthModalVisible = true">Sign In</Button>
+      <div class="flex gap-4">
+        <NuxtLink v-if="isAuthenticated" :to="{ name: 'recipe-new' }">
+          <Button label="Recipe" icon="pi pi-plus" />
+        </NuxtLink>
+        <NuxtLink v-if="isAuthenticated" :to="{ name: 'recipe-generate' }">
+          <Button label="Generate" icon="pi pi-sparkles" />
+        </NuxtLink>
+        <Button v-else @click="isAuthModalVisible = true">Sign In</Button>
+      </div>
     </header>
     <slot />
     <footer

@@ -3,8 +3,11 @@ import useAuth from '@/composables/useAuth';
 
 export interface PreparationProps {
   steps?: string[] | null;
+  editable?: boolean;
 }
-const props = defineProps<PreparationProps>();
+const props = withDefaults(defineProps<PreparationProps>(), {
+  editable: true,
+});
 const emit = defineEmits(['save']);
 
 const { isAuthenticated } = useAuth();
@@ -27,7 +30,7 @@ function handleSave() {
     <div class="flex gap-2 items-center mb-4">
       <h3 class="text-2xl">Preparation</h3>
       <Button
-        v-if="isAuthenticated"
+        v-if="props.editable && isAuthenticated"
         icon="pi pi-pen-to-square"
         text
         rounded
