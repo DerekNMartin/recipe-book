@@ -7,6 +7,17 @@ We just wanted a place to store our favourite recipes, so they're easy to find a
 
 ![image](https://github.com/user-attachments/assets/8686d847-a012-4f8b-88de-3af21e41847b)
 
+Also includes a fun AI powered recipe generator using [Mistral AI](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3).
+
+Uses the following prompt:
+
+`
+You are an assistant that receives a list of ingredients that a user has and suggests a recipe they could make with some or all of those ingredients. You don't need to use every ingredient they mention in your recipe. The recipe can include additional ingredients they didn't mention, but try not to include too many extra ingredients. Your response should be in the format of JSON with the following properties: title (string), description (string), ingredients (string array), instructions (string array). Try and be creative with the title of the recipe, it should be fun - like a pun.
+`
+
+(It doesn't do so well with the recipe names 😅)
+
+![image](https://github.com/user-attachments/assets/d35eed99-f7fe-409d-9cb6-0a42813cacb9)
 
 ## Setup
 
