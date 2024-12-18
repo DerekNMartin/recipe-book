@@ -4,50 +4,39 @@ const router = useRouter();
 const newRecipe = reactive({
   title: {
     value: '',
-    inputType: 'text',
     label: 'Title',
   },
   author: {
     value: '',
-    inputType: 'text',
     label: 'Author',
   },
   image_url: {
     value: '',
-    inputType: 'text',
     label: 'Image URL',
   },
   original_url: {
     value: '',
-    inputType: 'text',
     label: 'Original URL',
   },
   description: {
     value: '',
-    inputType: 'textArea',
     label: 'Description',
   },
   ingredients: {
     value: [],
     newValue: '',
-    inputType: 'listText',
-    listType: 'bullet',
     buttonLabel: 'Add Ingredient',
     label: 'Ingredients',
   },
   preparation: {
     value: [],
     newValue: '',
-    inputType: 'listTextArea',
-    listType: 'decimal',
     buttonLabel: 'Add Step',
     label: 'Preparation',
   },
   notes: {
     value: [],
     newValue: '',
-    inputType: 'listTextArea',
-    listType: 'none',
     buttonLabel: 'Add Note',
     label: 'Notes',
   },
@@ -71,41 +60,100 @@ async function addRecipe() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <div
-      v-for="(input, key) in newRecipe"
-      :id="key"
-      class="flex flex-col gap-1"
-    >
-      <label class="text-primary-700 font-bold text-sm uppercase" :for="key">{{
-        input.label
-      }}</label>
-      <template
-        v-if="input.inputType === 'text' && typeof input.value === 'string'"
-      >
-        <InputText :id="key" v-model="input.value" />
-      </template>
-      <template
-        v-else-if="
-          input.inputType === 'textArea' && typeof input.value === 'string'
-        "
-      >
-        <Textarea :id="key" v-model="input.value" />
-      </template>
-      <template
-        v-else-if="
-          input.inputType === 'listText' || input.inputType === 'listTextArea'
-        "
-      >
-        <InputList
-          v-model:items="newRecipe[key].value"
-          v-model="newRecipe[key].newValue"
-          :button-label="newRecipe[key].buttonLabel"
-          :input-type="input.inputType === 'listTextArea' ? 'textarea' : 'text'"
-          :list-type="input.listType"
-        />
-      </template>
+  <div>
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
+      <!-- left -->
+      <section class="recipe-input-section">
+        <div class="recipe-input-container">
+          <label class="recipe-input__label">
+            {{ newRecipe.title.label }}
+          </label>
+          <InputText v-model="newRecipe.title.value" />
+        </div>
+        <div class="recipe-input-container">
+          <label class="recipe-input__label">
+            {{ newRecipe.author.label }}
+          </label>
+          <InputText v-model="newRecipe.author.value" />
+        </div>
+        <div class="recipe-input-container">
+          <label class="recipe-input__label">
+            {{ newRecipe.image_url.label }}
+          </label>
+          <InputText v-model="newRecipe.image_url.value" />
+        </div>
+        <div class="recipe-input-container">
+          <label class="recipe-input__label">
+            {{ newRecipe.original_url.label }}
+          </label>
+          <InputText v-model="newRecipe.original_url.value" />
+        </div>
+        <div class="recipe-input-container">
+          <label class="recipe-input__label">
+            {{ newRecipe.description.label }}
+          </label>
+          <Textarea v-model="newRecipe.description.value" />
+        </div>
+      </section>
+      <div class="flex flex-col gap-4">
+        <section class="recipe-input-section">
+          <div class="recipe-input-container">
+            <label class="recipe-input__label">
+              {{ newRecipe.ingredients.label }}
+            </label>
+            <InputList
+              v-model:items="newRecipe.ingredients.value"
+              v-model="newRecipe.ingredients.newValue"
+              :button-label="newRecipe.ingredients.buttonLabel"
+              input-type="text"
+              list-type="bullet"
+            />
+          </div>
+        </section>
+        <section class="recipe-input-section">
+          <div class="recipe-input-container">
+            <label class="recipe-input__label">
+              {{ newRecipe.preparation.label }}
+            </label>
+            <InputList
+              v-model:items="newRecipe.preparation.value"
+              v-model="newRecipe.preparation.newValue"
+              :button-label="newRecipe.preparation.buttonLabel"
+              input-type="textarea"
+              list-type="decimal"
+            />
+          </div>
+        </section>
+        <section class="recipe-input-section">
+          <div class="recipe-input-container">
+            <label class="recipe-input__label">
+              {{ newRecipe.notes.label }}
+            </label>
+            <InputList
+              v-model:items="newRecipe.notes.value"
+              v-model="newRecipe.notes.newValue"
+              :button-label="newRecipe.notes.buttonLabel"
+              input-type="textarea"
+            />
+          </div>
+        </section>
+      </div>
     </div>
-    <Button label="Create Recipe" @click="addRecipe" icon="pi pi-plus" />
+    <section class="flex justify-end mt-8">
+      <Button label="Create Recipe" @click="addRecipe" icon="pi pi-plus" />
+    </section>
   </div>
 </template>
+
+<style lang="css">
+.recipe-input-section {
+  @apply p-6 rounded-lg flex flex-col gap-6 bg-white border-2 border-solid border-primary-700;
+}
+
+.recipe-input-container {
+  @apply flex flex-col gap-1;
+}
+.recipe-input__label {
+  @apply text-primary-700 text-xs font-bold uppercase;
+}
+</style>

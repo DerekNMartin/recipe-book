@@ -51,6 +51,10 @@ function handleEdit(itemIndex: number) {
 
 function handleRemove(index: number) {
   items.value?.splice(index, 1);
+  if (editItemIndex.value === index) {
+    editItemIndex.value = null;
+    newItem.value = '';
+  }
 }
 
 function formatListItem(text: string) {
@@ -77,7 +81,7 @@ async function handlePaste(event: ClipboardEvent) {
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="flex gap-4 sm:flex-row flex-col">
+    <div class="flex gap-4">
       <Textarea
         class="w-full"
         v-if="inputType === 'textarea'"
@@ -90,15 +94,14 @@ async function handlePaste(event: ClipboardEvent) {
         v-model="newItem"
         @keyup.enter="handleAdd()"
         class="w-full"
-        size="small"
         @paste="handlePaste"
       />
       <Button
-        :label="isEditing ? 'Update' : buttonLabel || 'Add'"
+        :title="isEditing ? 'Update' : buttonLabel || 'Add'"
         size="small"
-        class="h-fit min-w-fit"
+        outlined
         @click="handleAdd()"
-        icon="pi pi-plus"
+        :icon="isEditing ? 'pi pi-check' : 'pi pi-plus'"
       />
     </div>
     <TransitionGroup
@@ -109,7 +112,7 @@ async function handlePaste(event: ClipboardEvent) {
     >
       <li
         v-for="(text, index) in items"
-        :key="index"
+        :key="text[0]"
         class="group w-fit text-primary-700"
       >
         <div class="flex items-center gap-2 group">
