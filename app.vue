@@ -52,4 +52,14 @@ button.p-button {
 .fade-leave-to {
   opacity: 0;
 }
+
+.page-transition-enter-active,
+.page-transition-leave-active {
+  transition: all 0.2s;
+}
+.page-transition-enter-from,
+.page-transition-leave-to {
+  opacity: 0;
+  filter: blur(0.5rem);
+}
 </style>

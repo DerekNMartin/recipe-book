@@ -60,6 +60,9 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@nuxt/fonts',
   ],
+  app: {
+    pageTransition: { name: 'page-transition', mode: 'out-in' },
+  },
   supabase: {
     redirect: false,
   },
