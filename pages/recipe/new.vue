@@ -4,7 +4,7 @@ const router = useRouter();
 const newRecipe = reactive({
   title: {
     value: '',
-    label: 'Title',
+    label: 'Recipe Name',
   },
   author: {
     value: '',
@@ -106,7 +106,6 @@ async function addRecipe() {
               v-model="newRecipe.ingredients.newValue"
               :button-label="newRecipe.ingredients.buttonLabel"
               input-type="text"
-              list-type="bullet"
             />
           </div>
         </section>
@@ -120,7 +119,6 @@ async function addRecipe() {
               v-model="newRecipe.preparation.newValue"
               :button-label="newRecipe.preparation.buttonLabel"
               input-type="textarea"
-              list-type="decimal"
             />
           </div>
         </section>

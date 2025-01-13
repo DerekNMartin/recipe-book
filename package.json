@@ -18,7 +18,8 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.1.0",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",

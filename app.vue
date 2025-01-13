@@ -20,6 +20,7 @@
 <style>
 body {
   font-family: 'Montserrat', sans-serif;
+  overflow-y: scroll !important;
 }
 
 p,

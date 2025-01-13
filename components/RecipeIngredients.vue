@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import useAuth from '@/composables/useAuth';
+import type { Recipe } from '~/server/api/recipes/[recipeId].get';
 
 export interface IngredientsProps {
-  ingredients?: string[] | null;
+  ingredients: Recipe['ingredients'];
   editable?: boolean;
 }
 const props = withDefaults(defineProps<IngredientsProps>(), {
@@ -40,7 +41,7 @@ function handleSave() {
     </div>
     <Transition mode="out-in" name="fade">
       <div v-if="isEditing">
-        <InputList listType="bullet" :items="editedIngredients" />
+        <InputList listType="bullet" v-model:items="editedIngredients" />
         <Button label="Save Changes" class="mt-4 w-full" @click="handleSave" />
       </div>
       <ul

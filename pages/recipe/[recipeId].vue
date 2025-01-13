@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import useAuth from '@/composables/useAuth';
+import type { Recipe } from '~/server/api/recipes/[recipeId].get';
 
 const route = useRoute();
 const router = useRouter();
@@ -7,7 +8,7 @@ const { isAuthenticated } = useAuth();
 
 const recipeId = computed(() => route.params.recipeId);
 
-const { data: recipe } = useFetch(`/api/recipes/${recipeId.value}`);
+const { data: recipe } = useFetch<Recipe>(`/api/recipes/${recipeId.value}`);
 
 const recipeRating = computed({
   get() {
@@ -27,8 +28,9 @@ async function deleteRecipe() {
   router.replace('/');
 }
 
-async function saveChanges(editedRecipeSection: Partial<typeof recipe.value>) {
+async function saveChanges(editedRecipeSection: Partial<Recipe>) {
   const editRecipePayload = { ...recipe.value, ...editedRecipeSection };
+  recipe.value = editRecipePayload;
   await $fetch(`/api/recipes/${recipeId.value}`, {
     method: 'put',
     body: { recipe: editRecipePayload },

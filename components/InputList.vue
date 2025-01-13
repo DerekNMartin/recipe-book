@@ -1,28 +1,19 @@
 <script setup lang="ts">
+import draggable from 'vuedraggable';
+
 const newItem = defineModel<string>();
 const items = defineModel<string[] | null>('items');
 
 const props = withDefaults(
   defineProps<{
-    listType?: 'bullet' | 'decimal' | 'none';
     inputType?: 'text' | 'textarea';
     buttonLabel?: string;
   }>(),
   {
-    listType: 'none',
     inputType: 'text',
     buttonLabel: undefined,
   }
 );
-
-const listTypeClass = computed(() => {
-  const classMapping = {
-    bullet: 'list-disc ml-4 pl-4',
-    decimal: 'list-decimal ml-4 pl-4',
-    none: 'list-none',
-  };
-  return classMapping[props.listType];
-});
 
 function handleAdd() {
   if (!newItem.value) return;
@@ -104,27 +95,43 @@ async function handlePaste(event: ClipboardEvent) {
         :icon="isEditing ? 'pi pi-check' : 'pi pi-plus'"
       />
     </div>
-    <TransitionGroup
-      name="fade"
-      :class="listTypeClass"
-      class="flex flex-col gap-4"
-      tag="ul"
+    <draggable
+      v-if="items?.length"
+      v-model="items"
+      tag="transition-group"
+      :component-data="{ name: 'fade' }"
+      ghost-class="bg-primary-50"
+      :animation="250"
+      easing="cubic-bezier(0.85, 0, 0.15, 1)"
+      handle=".handle"
     >
-      <li
-        v-for="(text, index) in items"
-        :key="text[0]"
-        class="group w-fit text-primary-700"
-      >
-        <div class="flex items-center gap-2 group">
-          <p class="cursor-pointer" @click="handleEdit(index)">
-            {{ text }}
-          </p>
-          <i
-            class="pi pi-times cursor-pointer opacity-0 group-hover:opacity-100"
-            @click="handleRemove(index)"
-          ></i>
-        </div>
-      </li>
-    </TransitionGroup>
+      <template #item="{ element: text, index }">
+        <li
+          class="group text-primary-700 flex gap-2 items-center p-2 rounded-md bg-white w-full transition-colors justify-between border border-solid border-primary-200"
+        >
+          <!-- LEFT -->
+          <div
+            class="handle flex cursor-grab text-primary-300 hover:text-primary-600 transition-colors active:cursor-grabbing"
+          >
+            <i class="pi pi-ellipsis-v w-2"></i>
+            <i class="pi pi-ellipsis-v w-2"></i>
+          </div>
+          <!-- CENTER -->
+          <div class="flex flex-1 w-full items-center mx-2">
+            <p class="cursor-pointer" @click="handleEdit(index)">
+              {{ text }}
+            </p>
+          </div>
+          <!-- RIGHT -->
+          <div>
+            <i
+              class="pi pi-trash cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity hover:text-primary-600 text-primary-300"
+              title="Remove"
+              @click="handleRemove(index)"
+            ></i>
+          </div>
+        </li>
+      </template>
+    </draggable>
   </div>
 </template>
