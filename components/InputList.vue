@@ -6,6 +6,7 @@ const items = defineModel<string[] | null>('items');
 
 const props = withDefaults(
   defineProps<{
+    placeholder?: string;
     inputType?: 'text' | 'textarea';
     buttonLabel?: string;
   }>(),
@@ -14,6 +15,20 @@ const props = withDefaults(
     buttonLabel: undefined,
   }
 );
+
+const itemizedList = computed({
+  get() {
+    return (
+      items?.value?.map((text) => ({
+        id: (Math.random() * 10000).toString(),
+        text,
+      })) || []
+    );
+  },
+  set(newValue) {
+    items.value = newValue.map(({ text }) => text);
+  },
+});
 
 function handleAdd() {
   if (!newItem.value) return;
@@ -76,6 +91,7 @@ async function handlePaste(event: ClipboardEvent) {
       <Textarea
         class="w-full"
         v-if="inputType === 'textarea'"
+        :placeholder="placeholder"
         v-model="newItem"
         @paste="handlePaste"
         @keyup.enter="handleAdd()"
@@ -83,6 +99,7 @@ async function handlePaste(event: ClipboardEvent) {
       <InputText
         v-else
         v-model="newItem"
+        :placeholder="placeholder"
         @keyup.enter="handleAdd()"
         class="w-full"
         @paste="handlePaste"
@@ -96,17 +113,18 @@ async function handlePaste(event: ClipboardEvent) {
       />
     </div>
     <draggable
-      v-if="items?.length"
-      v-model="items"
-      tag="transition-group"
-      :component-data="{ name: 'fade' }"
+      v-if="itemizedList?.length"
+      v-model="itemizedList"
+      item-key="id"
+      class="flex flex-col gap-2"
       ghost-class="bg-primary-50"
       :animation="250"
       easing="cubic-bezier(0.85, 0, 0.15, 1)"
       handle=".handle"
     >
-      <template #item="{ element: text, index }">
+      <template #item="{ element, index }">
         <li
+          :key="element.id"
           class="group text-primary-700 flex gap-2 items-center p-2 rounded-md bg-white w-full transition-colors justify-between border border-solid border-primary-200"
         >
           <!-- LEFT -->
@@ -119,7 +137,7 @@ async function handlePaste(event: ClipboardEvent) {
           <!-- CENTER -->
           <div class="flex flex-1 w-full items-center mx-2">
             <p class="cursor-pointer" @click="handleEdit(index)">
-              {{ text }}
+              {{ element.text }}
             </p>
           </div>
           <!-- RIGHT -->

@@ -4,7 +4,7 @@ const router = useRouter();
 const newRecipe = reactive({
   title: {
     value: '',
-    label: 'Recipe Name',
+    label: 'Title',
   },
   author: {
     value: '',
@@ -57,13 +57,83 @@ async function addRecipe() {
   });
   router.replace('/');
 }
+
+function setNewRecipeValue(
+  key: keyof typeof newRecipe,
+  value: string | string[] | undefined
+) {
+  if (value) newRecipe[key].value = value;
+}
+
+async function handleAutoFill() {
+  if (!newRecipe.original_url.value) return;
+  try {
+    const metadata = await $fetch('/api/metadata', {
+      query: { url: newRecipe.original_url.value },
+    });
+    setNewRecipeValue('title', metadata?.title);
+    setNewRecipeValue('author', metadata?.author);
+    setNewRecipeValue('image_url', metadata?.image);
+    setNewRecipeValue('original_url', metadata?.url);
+    setNewRecipeValue('description', metadata?.description);
+    setNewRecipeValue('ingredients', metadata?.ingredients);
+    setNewRecipeValue('preparation', metadata?.preparation);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const canCreateRecipe = computed(() => {
+  return (
+    newRecipe.title &&
+    newRecipe.ingredients.value.length > 0 &&
+    newRecipe.preparation.value.length > 0
+  );
+});
 </script>
 
 <template>
   <div>
-    <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
-      <!-- left -->
-      <section class="recipe-input-section">
+    <section class="flex flex-col gap-4 items-center mb-8">
+      <Transition name="fade">
+        <h2
+          v-if="newRecipe.title.value"
+          class="text-5xl font-bold leading-[3.5rem] text-center"
+        >
+          {{ newRecipe.title.value }}
+        </h2>
+      </Transition>
+      <Transition name="fade">
+        <img
+          v-if="newRecipe.image_url.value"
+          :src="newRecipe.image_url.value"
+          class="rounded-3xl max-h-64"
+        />
+      </Transition>
+      <Button
+        label="Create Recipe"
+        @click="addRecipe"
+        :disabled="!canCreateRecipe"
+        icon="pi pi-plus"
+      />
+    </section>
+    <div class="grid md:grid-cols-[1fr,2fr] grid-cols-1 gap-4">
+      <section class="recipe-input-section max-h-fit">
+        <div class="recipe-input-container w-full">
+          <label class="recipe-input__label">
+            {{ newRecipe.original_url.label }}
+          </label>
+          <div class="flex gap-2">
+            <InputText class="w-full" v-model="newRecipe.original_url.value" />
+            <Button
+              title="Autofill from metadata"
+              size="small"
+              outlined
+              @click="handleAutoFill()"
+              icon="pi pi-bolt"
+            />
+          </div>
+        </div>
         <div class="recipe-input-container">
           <label class="recipe-input__label">
             {{ newRecipe.title.label }}
@@ -84,12 +154,6 @@ async function addRecipe() {
         </div>
         <div class="recipe-input-container">
           <label class="recipe-input__label">
-            {{ newRecipe.original_url.label }}
-          </label>
-          <InputText v-model="newRecipe.original_url.value" />
-        </div>
-        <div class="recipe-input-container">
-          <label class="recipe-input__label">
             {{ newRecipe.description.label }}
           </label>
           <Textarea v-model="newRecipe.description.value" />
@@ -102,6 +166,7 @@ async function addRecipe() {
               {{ newRecipe.ingredients.label }}
             </label>
             <InputList
+              placeholder="Add an ingredient"
               v-model:items="newRecipe.ingredients.value"
               v-model="newRecipe.ingredients.newValue"
               :button-label="newRecipe.ingredients.buttonLabel"
@@ -115,6 +180,7 @@ async function addRecipe() {
               {{ newRecipe.preparation.label }}
             </label>
             <InputList
+              placeholder="Add a preparation step"
               v-model:items="newRecipe.preparation.value"
               v-model="newRecipe.preparation.newValue"
               :button-label="newRecipe.preparation.buttonLabel"
@@ -128,6 +194,7 @@ async function addRecipe() {
               {{ newRecipe.notes.label }}
             </label>
             <InputList
+              placeholder="Add a recipe note"
               v-model:items="newRecipe.notes.value"
               v-model="newRecipe.notes.newValue"
               :button-label="newRecipe.notes.buttonLabel"
@@ -137,9 +204,6 @@ async function addRecipe() {
         </section>
       </div>
     </div>
-    <section class="flex justify-end mt-8">
-      <Button label="Create Recipe" @click="addRecipe" icon="pi pi-plus" />
-    </section>
   </div>
 </template>
 
