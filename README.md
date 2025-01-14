@@ -7,6 +7,12 @@ We just wanted a place to store our favourite recipes, so they're easy to find a
 
 ![image](https://github.com/user-attachments/assets/8686d847-a012-4f8b-88de-3af21e41847b)
 
+**Autofill recipe details at the click of a button!**
+
+https://github.com/user-attachments/assets/ac92a323-2100-4fe3-b25e-9b281cd2589f
+
+**Generate a recipe using AI!**
+
 Also includes a fun AI powered recipe generator using [Mistral AI](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3).
 
 Uses the following prompt:
