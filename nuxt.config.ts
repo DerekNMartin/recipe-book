@@ -59,6 +59,7 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
     '@nuxtjs/supabase',
     '@nuxt/fonts',
+    '@vueuse/nuxt',
   ],
   app: {
     pageTransition: { name: 'page-transition', mode: 'out-in' },

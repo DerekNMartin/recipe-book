@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import useAuth from '@/composables/useAuth';
 import type { Recipe } from '~/server/api/recipes/[recipeId].get';
+
+import useAuth from '@/composables/useAuth';
+import { useClipboard } from '@vueuse/core';
 
 export interface IngredientsProps {
   ingredients: Recipe['ingredients'];
@@ -24,6 +26,15 @@ function handleSave() {
   emit('save', { ingredients: editedIngredients.value });
   toggleEditMode();
 }
+
+function copySingleIngredient(ingredient: string) {
+  const { copy } = useClipboard({ source: ingredient });
+  copy();
+}
+
+const { copy, copied } = useClipboard({
+  source: props.ingredients?.join('\n'),
+});
 </script>
 
 <template>
@@ -49,13 +60,22 @@ function handleSave() {
         class="list-disc list-inside flex flex-col gap-2 print:text-sm"
       >
         <li
-          class="text-primary-700"
-          v-for="(ingredient, index) in ingredients"
           :key="index"
+          class="text-primary-700 cursor-copy w-fit"
+          v-for="(ingredient, index) in ingredients"
+          @click="copySingleIngredient(ingredient)"
         >
           {{ ingredient }}
         </li>
       </ul>
     </Transition>
+    <Button
+      :label="copied ? 'Copied!' : 'Copy Ingredients'"
+      outlined
+      size="small"
+      class="w-full mt-6"
+      icon="pi pi-copy"
+      @click="copy()"
+    />
   </section>
 </template>

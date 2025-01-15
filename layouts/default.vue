@@ -29,12 +29,16 @@ const isAuthModalVisible = ref(!isAuthenticated.value);
     </header>
     <slot />
     <footer
-      class="flex flex-1 place-content-end mt-8 w-full justify-between border-t-2 border-solid border-primary-700 pt-6"
+      class="flex flex-1 place-content-end mt-8 w-full justify-between border-t-2 border-solid border-primary-700 pt-6 items-center"
     >
       <p>Made by Derek Martin</p>
-      <Button v-if="isAuthenticated" outlined @click="useSignOut"
-        >Sign Out</Button
-      >
+      <Button
+        v-if="isAuthenticated"
+        outlined
+        @click="useSignOut"
+        size="small"
+        label="Sign Out"
+      />
     </footer>
 
     <AuthModal v-model:visible="isAuthModalVisible" />

@@ -27,6 +27,8 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
-    "@primevue/nuxt-module": "^4.1.0"
+    "@primevue/nuxt-module": "^4.1.0",
+    "@vueuse/core": "^12.4.0",
+    "@vueuse/nuxt": "12.4.0"
   }
 }
