@@ -62,6 +62,9 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
   ],
   app: {
+    head: {
+      title: 'Recipe Book',
+    },
     pageTransition: { name: 'page-transition', mode: 'out-in' },
   },
   supabase: {
