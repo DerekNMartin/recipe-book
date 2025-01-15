@@ -44,7 +44,10 @@ async function saveChanges(editedRecipeSection: Partial<Recipe>) {
       <h2 class="text-5xl font-bold leading-[3.5rem] text-center">
         {{ recipe.title }}
       </h2>
-      <img :src="recipe.image_url || ''" class="rounded-3xl max-h-64" />
+      <img
+        :src="recipe.image_url || ''"
+        class="rounded-3xl max-h-64 aspect-square object-cover"
+      />
       <Rating v-model="recipeRating" class="flex gap-1" />
       <div class="flex gap-2">
         <p>{{ recipe.author }}</p>

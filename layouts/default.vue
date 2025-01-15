@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { SpeedInsights } from '@vercel/speed-insights/nuxt';
+import { Analytics } from '@vercel/analytics/nuxt';
 import useAuth from '@/composables/useAuth';
 
 const { isAuthenticated, useSignOut } = useAuth();
@@ -34,6 +36,9 @@ const isAuthModalVisible = ref(!isAuthenticated.value);
         >Sign Out</Button
       >
     </footer>
+
     <AuthModal v-model:visible="isAuthModalVisible" />
+    <SpeedInsights />
+    <Analytics />
   </main>
 </template>
