@@ -9,10 +9,10 @@ const isAuthModalVisible = ref(!isAuthenticated.value);
 
 <template>
   <main
-    class="sm:p-12 p-6 grid grid-rows-[auto,1fr,auto] min-h-screen bg-yellow-50 print:p-0"
+    class="sm:p-12 p-6 grid grid-rows-[auto,1fr,auto] min-h-screen bg-amber-50 print:p-0"
   >
     <header
-      class="flex justify-between mb-8 pb-8 border-b-2 border-solid border-primary-700"
+      class="flex justify-between mb-8 pb-8 border-b-2 border-solid border-primary-700 print:hidden"
     >
       <NuxtLink to="/">
         <h1 class="text-3xl font-bold text-primary-700">Recipes</h1>

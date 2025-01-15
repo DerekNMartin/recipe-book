@@ -87,10 +87,11 @@ async function handlePaste(event: ClipboardEvent) {
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="flex gap-4">
+    <div class="flex gap-2 items-stretch">
       <Textarea
-        class="w-full"
         v-if="inputType === 'textarea'"
+        style="field-sizing: content"
+        class="flex-1"
         :placeholder="placeholder"
         v-model="newItem"
         @paste="handlePaste"
@@ -99,17 +100,18 @@ async function handlePaste(event: ClipboardEvent) {
       <InputText
         v-else
         v-model="newItem"
+        class="flex-1"
         :placeholder="placeholder"
         @keyup.enter="handleAdd()"
-        class="w-full"
         @paste="handlePaste"
       />
       <Button
-        :title="isEditing ? 'Update' : buttonLabel || 'Add'"
+        class="aspect-square h-full w-auto max-h-11"
         size="small"
         outlined
-        @click="handleAdd()"
+        :title="isEditing ? 'Update' : buttonLabel || 'Add'"
         :icon="isEditing ? 'pi pi-check' : 'pi pi-plus'"
+        @click="handleAdd()"
       />
     </div>
     <draggable
@@ -117,7 +119,6 @@ async function handlePaste(event: ClipboardEvent) {
       v-model="itemizedList"
       item-key="id"
       class="flex flex-col gap-2"
-      ghost-class="bg-primary-50"
       :animation="250"
       easing="cubic-bezier(0.85, 0, 0.15, 1)"
       handle=".handle"
@@ -129,21 +130,24 @@ async function handlePaste(event: ClipboardEvent) {
         >
           <!-- LEFT -->
           <div
-            class="handle flex cursor-grab text-primary-300 hover:text-primary-600 transition-colors active:cursor-grabbing"
+            class="handle flex cursor-grab text-primary-300 hover:text-primary-600 transition-colors active:cursor-grabbing mr-2"
           >
             <i class="pi pi-ellipsis-v w-2"></i>
             <i class="pi pi-ellipsis-v w-2"></i>
           </div>
           <!-- CENTER -->
-          <div class="flex flex-1 w-full items-center mx-2">
-            <p class="cursor-pointer" @click="handleEdit(index)">
+          <div class="flex flex-1 w-full items-center">
+            <p
+              class="cursor-pointer sm:text-base text-sm"
+              @click="handleEdit(index)"
+            >
               {{ element.text }}
             </p>
           </div>
           <!-- RIGHT -->
           <div>
             <i
-              class="pi pi-trash cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity hover:text-primary-600 text-primary-300"
+              class="pi pi-trash cursor-pointer sm:opacity-0 group-hover:opacity-100 transition-opacity hover:text-primary-600 text-primary-300"
               title="Remove"
               @click="handleRemove(index)"
             ></i>
@@ -153,3 +157,9 @@ async function handlePaste(event: ClipboardEvent) {
     </draggable>
   </div>
 </template>
+
+<style lang="css">
+.sortable-ghost {
+  @apply bg-primary-50;
+}
+</style>

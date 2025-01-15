@@ -36,11 +36,15 @@ async function saveChanges(editedRecipeSection: Partial<Recipe>) {
     body: { recipe: editRecipePayload },
   });
 }
+
+function handlePrint() {
+  window.print();
+}
 </script>
 
 <template>
   <div v-if="recipe" class="flex flex-col gap-8">
-    <section class="flex flex-col items-center gap-12">
+    <section class="flex flex-col items-center sm:gap-12 print:gap-8 gap-8">
       <h2
         class="sm:text-5xl text-3xl font-bold sm:leading-[3.5rem] text-center"
       >
@@ -50,13 +54,13 @@ async function saveChanges(editedRecipeSection: Partial<Recipe>) {
         :src="recipe.image_url || ''"
         class="rounded-3xl max-h-64 aspect-square object-cover"
       />
-      <Rating v-model="recipeRating" class="flex gap-1" />
+      <Rating v-model="recipeRating" class="flex gap-1 print:hidden" />
       <div class="flex gap-2">
         <p>{{ recipe.author }}</p>
         <a
           v-if="recipe.original_url"
           :href="recipe.original_url"
-          class="border-l border-solid border-primary-700 pl-2 hover:underline"
+          class="border-l border-solid border-primary-700 pl-2 hover:underline print:hidden"
           target="_blank"
         >
           <p>
@@ -89,7 +93,15 @@ async function saveChanges(editedRecipeSection: Partial<Recipe>) {
       :notes="recipe.notes"
       @save="saveChanges"
     />
-    <section class="flex" v-if="isAuthenticated">
+    <section class="flex justify-between" v-if="isAuthenticated">
+      <Button
+        class="w-fit"
+        label="Download Recipe"
+        outlined
+        size="small"
+        icon="pi pi-download"
+        @click="handlePrint()"
+      />
       <Button
         label="Delete Recipe"
         @click="deleteRecipe"

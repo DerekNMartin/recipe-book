@@ -65,9 +65,11 @@ function setNewRecipeValue(
   if (value) newRecipe[key].value = value;
 }
 
+const isLoadingMetadata = ref(false);
 async function handleAutoFill() {
   if (!newRecipe.original_url.value) return;
   try {
+    isLoadingMetadata.value = true;
     const metadata = await $fetch('/api/metadata', {
       query: { url: newRecipe.original_url.value },
     });
@@ -80,6 +82,8 @@ async function handleAutoFill() {
     setNewRecipeValue('preparation', metadata?.preparation);
   } catch (error) {
     console.log(error);
+  } finally {
+    isLoadingMetadata.value = false;
   }
 }
 
@@ -124,12 +128,14 @@ const canCreateRecipe = computed(() => {
             {{ newRecipe.original_url.label }}
           </label>
           <div class="flex gap-2">
-            <InputText class="w-full" v-model="newRecipe.original_url.value" />
+            <InputText class="flex-1" v-model="newRecipe.original_url.value" />
             <Button
-              :disabled="!Boolean(newRecipe.original_url.value)"
+              class="aspect-square h-full w-auto"
               title="Autofill recipe details from metadata"
-              @click="handleAutoFill()"
               icon="pi pi-sparkles"
+              :disabled="!Boolean(newRecipe.original_url.value)"
+              :loading="isLoadingMetadata"
+              @click="handleAutoFill()"
             />
           </div>
         </div>
@@ -155,7 +161,10 @@ const canCreateRecipe = computed(() => {
           <label class="recipe-input__label">
             {{ newRecipe.description.label }}
           </label>
-          <Textarea v-model="newRecipe.description.value" />
+          <Textarea
+            v-model="newRecipe.description.value"
+            style="field-sizing: content"
+          />
         </div>
       </section>
       <div class="flex flex-col gap-4">
@@ -208,7 +217,7 @@ const canCreateRecipe = computed(() => {
 
 <style lang="css">
 .recipe-input-section {
-  @apply p-6 rounded-lg flex flex-col gap-6 bg-white border-2 border-solid border-primary-700;
+  @apply sm:p-6 p-4 rounded-lg flex flex-col gap-6 bg-white border-2 border-solid border-primary-700;
 }
 
 .recipe-input-container {
