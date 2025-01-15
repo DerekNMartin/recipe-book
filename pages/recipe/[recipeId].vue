@@ -41,7 +41,9 @@ async function saveChanges(editedRecipeSection: Partial<Recipe>) {
 <template>
   <div v-if="recipe" class="flex flex-col gap-8">
     <section class="flex flex-col items-center gap-12">
-      <h2 class="text-5xl font-bold leading-[3.5rem] text-center">
+      <h2
+        class="sm:text-5xl text-3xl font-bold sm:leading-[3.5rem] text-center"
+      >
         {{ recipe.title }}
       </h2>
       <img
