@@ -14,7 +14,11 @@ const isAuthModalVisible = ref(!isAuthenticated.value);
     <header
       class="flex justify-between mb-8 pb-8 border-b-2 border-solid border-primary-700 print:hidden"
     >
-      <NuxtLink to="/">
+      <NuxtLink to="/" class="group flex items-center gap-1">
+        <img
+          src="~/assets/logo.svg"
+          class="w-10 -rotate-6 group-hover:animate-wiggle"
+        />
         <h1 class="text-3xl font-bold text-primary-700">Recipes</h1>
       </NuxtLink>
       <div class="flex gap-4">
