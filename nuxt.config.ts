@@ -68,10 +68,18 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: 'page-transition', mode: 'out-in' },
   },
+  css: ['primeicons/primeicons.css'],
+  image: {
+    domains: [
+      'assets.bonappetit.com',
+      'static01.nyt.com',
+      'images.squarespace-cdn.com',
+      'res.cloudinary.com',
+    ],
+  },
   supabase: {
     redirect: false,
   },
-  css: ['primeicons/primeicons.css'],
   primevue: {
     usePrimeVue: true,
     options: {

@@ -108,10 +108,14 @@ const canCreateRecipe = computed(() => {
         </h2>
       </Transition>
       <Transition name="fade">
-        <img
+        <NuxtImg
           v-if="newRecipe.image_url.value"
           :src="newRecipe.image_url.value"
+          fit="cover"
+          height="500"
+          format="webp"
           class="rounded-3xl max-h-64"
+          :alt="newRecipe.title.value || undefined"
         />
       </Transition>
       <Button

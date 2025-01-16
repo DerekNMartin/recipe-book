@@ -11,10 +11,9 @@ const props = defineProps<{ recipe: Recipe }>();
       <NuxtImg
         :src="recipe.image_url || undefined"
         fit="cover"
-        width="600"
-        height="600"
+        width="auto"
+        height="500"
         format="webp"
-        quality="80"
         class="object-cover w-full h-full"
         :alt="recipe.title || undefined"
       />
