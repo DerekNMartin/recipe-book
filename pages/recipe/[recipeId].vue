@@ -53,7 +53,7 @@ function handlePrint() {
       <NuxtImg
         :src="recipe.image_url || undefined"
         fit="cover"
-        height="500"
+        width="500"
         format="webp"
         class="rounded-3xl max-h-64 max-w-64 aspect-square object-cover"
         :alt="recipe.title || undefined"

@@ -112,7 +112,7 @@ const canCreateRecipe = computed(() => {
           v-if="newRecipe.image_url.value"
           :src="newRecipe.image_url.value"
           fit="cover"
-          height="500"
+          width="500"
           format="webp"
           class="rounded-3xl max-h-64"
           :alt="newRecipe.title.value || undefined"
