@@ -87,7 +87,7 @@ async function handlePaste(event: ClipboardEvent) {
 
 <template>
   <div class="flex flex-col gap-4">
-    <div class="flex gap-2 items-stretch">
+    <div class="flex gap-2">
       <Textarea
         v-if="inputType === 'textarea'"
         style="field-sizing: content"
@@ -100,13 +100,13 @@ async function handlePaste(event: ClipboardEvent) {
       <InputText
         v-else
         v-model="newItem"
-        class="flex-1"
+        class="w-full"
         :placeholder="placeholder"
         @keyup.enter="handleAdd()"
         @paste="handlePaste"
       />
       <Button
-        class="aspect-square h-full w-auto max-h-11"
+        class="aspect-square h-full w-auto max-h-11 min-w-10"
         size="small"
         outlined
         :title="isEditing ? 'Update' : buttonLabel || 'Add'"

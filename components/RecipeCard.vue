@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Recipe } from '@/server/api/recipes.get';
-defineProps<{ recipe: Recipe }>();
+const props = defineProps<{ recipe: Recipe }>();
 </script>
 
 <template>
@@ -8,7 +8,16 @@ defineProps<{ recipe: Recipe }>();
     <article
       class="rounded-xl border-2 border-solid border-primary-700 overflow-hidden flex flex-col justify-end h-full max-h-96"
     >
-      <img :src="recipe.image_url || ''" class="w-full h-full object-cover" />
+      <NuxtImg
+        :src="recipe.image_url || undefined"
+        fit="cover"
+        width="600"
+        height="600"
+        format="webp"
+        quality="80"
+        class="object-cover w-full h-full"
+        :alt="recipe.title || undefined"
+      />
       <div class="border-t-2 border-solid border-primary-700 p-4 bg-white">
         <h3 class="text-lg">{{ recipe.title }}</h3>
       </div>

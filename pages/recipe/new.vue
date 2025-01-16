@@ -128,9 +128,9 @@ const canCreateRecipe = computed(() => {
             {{ newRecipe.original_url.label }}
           </label>
           <div class="flex gap-2">
-            <InputText class="flex-1" v-model="newRecipe.original_url.value" />
+            <InputText class="w-full" v-model="newRecipe.original_url.value" />
             <Button
-              class="aspect-square h-full w-auto"
+              class="aspect-square min-w-10"
               title="Autofill recipe details from metadata"
               icon="pi pi-sparkles"
               :disabled="!Boolean(newRecipe.original_url.value)"

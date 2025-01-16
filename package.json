@@ -12,6 +12,7 @@
   "dependencies": {
     "@huggingface/inference": "^2.8.1",
     "@nuxt/fonts": "^0.10.2",
+    "@nuxt/image": "1.9.0",
     "@nuxtjs/supabase": "^1.4.0",
     "@primevue/themes": "^4.1.0",
     "@vercel/analytics": "^1.4.1",
