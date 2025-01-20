@@ -114,7 +114,7 @@ const canCreateRecipe = computed(() => {
           fit="cover"
           width="500"
           format="webp"
-          class="rounded-3xl max-h-64"
+          class="rounded-3xl max-h-64 max-w-64 object-cover"
           :alt="newRecipe.title.value || undefined"
         />
       </Transition>

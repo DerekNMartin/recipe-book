@@ -58,7 +58,9 @@ function handlePrint() {
         class="rounded-3xl max-h-64 max-w-64 aspect-square object-cover"
         :alt="recipe.title || undefined"
       />
-      <Rating v-model="recipeRating" class="flex gap-1 print:hidden" />
+      <div class="print:hidden">
+        <Rating v-model="recipeRating" class="flex gap-1" />
+      </div>
       <div class="flex gap-2">
         <p>{{ recipe.author }}</p>
         <a
