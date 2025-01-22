@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Recipe } from '@/server/api/recipes.get';
+import type { Recipe } from '@/types/recipe.types.js';
 const props = defineProps<{ recipe: Recipe }>();
 </script>
 

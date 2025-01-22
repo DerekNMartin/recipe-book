@@ -43,12 +43,14 @@ const newRecipe = reactive({
 });
 
 async function addRecipe() {
+  const DEFAULT_SERVINGS = 4;
   const payload = Object.keys(newRecipe).reduce<
-    Record<string, string | string[]>
+    Record<string, string | string[] | number>
   >((acc, curr) => {
     acc[curr] = newRecipe[curr as keyof typeof newRecipe].value;
     return acc;
   }, {});
+  payload.servings = DEFAULT_SERVINGS;
   await $fetch('/api/recipes', {
     method: 'post',
     body: {
@@ -114,7 +116,7 @@ const canCreateRecipe = computed(() => {
           fit="cover"
           width="500"
           format="webp"
-          class="rounded-3xl max-h-64 max-w-64 object-cover"
+          class="rounded-3xl max-h-64 max-w-64 object-cover aspect-square"
           :alt="newRecipe.title.value || undefined"
         />
       </Transition>

@@ -1,7 +1,5 @@
 import { serverSupabaseClient } from '#supabase/server';
-import type { Database } from '@/types/database.types';
-
-export type Recipe = Database['public']['Tables']['recipes']['Row'];
+import type { Database } from '@/types/database.extended.types';
 
 export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient<Database>(event);
@@ -11,6 +9,7 @@ export default defineEventHandler(async (event) => {
     .from('recipes')
     .select('*')
     .eq('id', recipeId)
+    .select('*, ingredients(*)')
     .limit(1)
     .single();
 

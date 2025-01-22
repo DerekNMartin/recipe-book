@@ -34,6 +34,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      ingredients: {
+        Row: {
+          id: number
+          measurements: Json | null
+          name: string | null
+          original: string | null
+          original_name: string | null
+          recipe_id: number
+        }
+        Insert: {
+          id?: number
+          measurements?: Json | null
+          name?: string | null
+          original?: string | null
+          original_name?: string | null
+          recipe_id: number
+        }
+        Update: {
+          id?: number
+          measurements?: Json | null
+          name?: string | null
+          original?: string | null
+          original_name?: string | null
+          recipe_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ingredients_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       recipes: {
         Row: {
           added_by: string | null
@@ -44,9 +79,11 @@ export type Database = {
           image_url: string | null
           ingredients: string[] | null
           notes: string[] | null
+          nutrition: Json | null
           original_url: string | null
           preparation: string[] | null
           rating: number | null
+          servings: number | null
           title: string | null
         }
         Insert: {
@@ -58,9 +95,11 @@ export type Database = {
           image_url?: string | null
           ingredients?: string[] | null
           notes?: string[] | null
+          nutrition?: Json | null
           original_url?: string | null
           preparation?: string[] | null
           rating?: number | null
+          servings?: number | null
           title?: string | null
         }
         Update: {
@@ -72,9 +111,11 @@ export type Database = {
           image_url?: string | null
           ingredients?: string[] | null
           notes?: string[] | null
+          nutrition?: Json | null
           original_url?: string | null
           preparation?: string[] | null
           rating?: number | null
+          servings?: number | null
           title?: string | null
         }
         Relationships: []

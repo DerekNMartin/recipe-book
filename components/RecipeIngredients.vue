@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { Recipe } from '~/server/api/recipes/[recipeId].get';
+import type { Ingredient } from '@/types/recipe.types.js';
 
 import useAuth from '@/composables/useAuth';
 import { useClipboard } from '@vueuse/core';
 
 export interface IngredientsProps {
-  ingredients: Recipe['ingredients'];
+  ingredients: Ingredient[];
   editable?: boolean;
 }
 const props = withDefaults(defineProps<IngredientsProps>(), {
@@ -27,7 +27,8 @@ function handleSave() {
   toggleEditMode();
 }
 
-function copySingleIngredient(ingredient: string) {
+function copySingleIngredient(ingredient?: string | null) {
+  if (!ingredient) return;
   const { copy } = useClipboard({ source: ingredient });
   copy();
 }
@@ -60,12 +61,12 @@ const { copy, copied } = useClipboard({
         class="list-disc list-inside flex flex-col gap-2 print:text-sm"
       >
         <li
-          :key="index"
+          :key="ingredient.id"
           class="text-primary-700 cursor-copy w-fit"
-          v-for="(ingredient, index) in ingredients"
-          @click="copySingleIngredient(ingredient)"
+          v-for="ingredient in ingredients"
+          @click="copySingleIngredient(ingredient?.original)"
         >
-          {{ ingredient }}
+          {{ ingredient.original }}
         </li>
       </ul>
     </Transition>

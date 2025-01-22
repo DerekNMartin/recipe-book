@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useAuth from '@/composables/useAuth';
-import type { Recipe } from '~/server/api/recipes/[recipeId].get';
+import type { Recipe } from '@/types/recipe.types.js';
 
 const route = useRoute();
 const router = useRouter();

@@ -45,9 +45,9 @@ function parseRecipeJsonLdContent(jsonld?: Thing) {
   return {
     title: recipe?.name || recipe?.headline,
     description: recipe?.description,
-    author: Array.isArray(recipe.author)
+    author: Array.isArray(recipe?.author)
       ? recipe.author[0].name
-      : typeof recipe.author === 'string'
+      : typeof recipe?.author === 'string'
       ? recipe?.author
       : recipe?.author?.name,
     ingredients: recipe?.recipeIngredient as string[],
@@ -86,6 +86,9 @@ export default defineCachedEventHandler(async (event) => {
     };
     return returnRecipe;
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: error?.message || 'Internal Server Error',
+    });
   }
 });
