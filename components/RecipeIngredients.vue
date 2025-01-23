@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Ingredient } from '@/types/recipe.types.js';
+import type { Recipe } from '@/types/recipe.types.js';
 
 import { useClipboard } from '@vueuse/core';
 import useAuth from '@/composables/useAuth';
 const toast = useToast();
 
 export interface IngredientsProps {
-  ingredients: Ingredient[];
+  ingredients: Recipe['ingredients'];
   editable?: boolean;
 }
 const props = withDefaults(defineProps<IngredientsProps>(), {
@@ -28,19 +28,17 @@ function handleSave() {
   toggleEditMode();
 }
 
-function copySingleIngredient({ name, original }: Ingredient) {
-  const copiedIngredient = name || original;
-  if (!copiedIngredient) return;
-  const { copy } = useClipboard({ source: copiedIngredient });
+function copySingleIngredient(item: string) {
+  const { copy } = useClipboard({ source: item });
   toast.add({
-    summary: `Copied ${copiedIngredient}`,
+    summary: `Copied ${item}`,
     life: 2500,
   });
   copy();
 }
 
 const { copy: copyAllIngredients, copied } = useClipboard({
-  source: props.ingredients.map(({ original }) => original)?.join('\n'),
+  source: props?.ingredients?.join('\n'),
 });
 </script>
 
@@ -67,12 +65,12 @@ const { copy: copyAllIngredients, copied } = useClipboard({
         class="list-disc list-inside flex flex-col gap-2 print:text-sm"
       >
         <li
-          :key="ingredient.id"
+          v-for="(ingredient, index) in ingredients"
+          :key="index"
           class="text-primary-700 cursor-copy w-fit"
-          v-for="ingredient in ingredients"
           @click="copySingleIngredient(ingredient)"
         >
-          {{ ingredient.original }}
+          {{ ingredient }}
         </li>
       </ul>
     </Transition>
