@@ -48,5 +48,6 @@ const isAuthModalVisible = ref(!isAuthenticated.value);
     <AuthModal v-model:visible="isAuthModalVisible" />
     <SpeedInsights />
     <Analytics />
+    <BaseToast />
   </main>
 </template>

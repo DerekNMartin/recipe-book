@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Ingredient } from '@/types/recipe.types.js';
 
-import useAuth from '@/composables/useAuth';
 import { useClipboard } from '@vueuse/core';
+import useAuth from '@/composables/useAuth';
+const toast = useToast();
 
 export interface IngredientsProps {
   ingredients: Ingredient[];
@@ -27,14 +28,19 @@ function handleSave() {
   toggleEditMode();
 }
 
-function copySingleIngredient(ingredient?: string | null) {
-  if (!ingredient) return;
-  const { copy } = useClipboard({ source: ingredient });
+function copySingleIngredient({ name, original }: Ingredient) {
+  const copiedIngredient = name || original;
+  if (!copiedIngredient) return;
+  const { copy } = useClipboard({ source: copiedIngredient });
+  toast.add({
+    summary: `Copied ${copiedIngredient}`,
+    life: 2500,
+  });
   copy();
 }
 
-const { copy, copied } = useClipboard({
-  source: props.ingredients?.join('\n'),
+const { copy: copyAllIngredients, copied } = useClipboard({
+  source: props.ingredients.map(({ original }) => original)?.join('\n'),
 });
 </script>
 
@@ -64,7 +70,7 @@ const { copy, copied } = useClipboard({
           :key="ingredient.id"
           class="text-primary-700 cursor-copy w-fit"
           v-for="ingredient in ingredients"
-          @click="copySingleIngredient(ingredient?.original)"
+          @click="copySingleIngredient(ingredient)"
         >
           {{ ingredient.original }}
         </li>
@@ -76,7 +82,7 @@ const { copy, copied } = useClipboard({
       size="small"
       class="w-full mt-6"
       icon="pi pi-copy"
-      @click="copy()"
+      @click="copyAllIngredients()"
     />
   </section>
 </template>
