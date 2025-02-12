@@ -50,17 +50,6 @@ function handlePrint() {
       >
         {{ recipe.title }}
       </h2>
-      <NuxtImg
-        :src="recipe.image_url || undefined"
-        fit="cover"
-        width="500"
-        format="webp"
-        class="rounded-3xl max-h-64 max-w-64 aspect-square object-cover"
-        :alt="recipe.title || undefined"
-      />
-      <div class="print:hidden">
-        <Rating v-model="recipeRating" class="flex gap-1" />
-      </div>
       <div class="flex gap-2">
         <p>{{ recipe.author }}</p>
         <a
@@ -75,9 +64,23 @@ function handlePrint() {
           </p>
         </a>
       </div>
+      <NuxtImg
+        :src="recipe.image_url || undefined"
+        fit="cover"
+        width="500"
+        format="webp"
+        class="rounded-3xl max-h-64 max-w-64 aspect-square object-cover"
+        :alt="recipe.title || undefined"
+      />
+      <div class="print:hidden">
+        <Rating v-model="recipeRating" class="flex gap-1" />
+      </div>
+      <RecipeNutrition :nutrition="recipe.nutrition" />
     </section>
-    <section class="border-y-2 border-solid border-primary-700 py-8">
-      <p class="sm:text-xl text-center print:text-base">
+    <section
+      class="flex flex-col gap-6 items-center border-y-2 border-primary-700 py-8"
+    >
+      <p class="sm:text-xl text-center print:text-base sm:w-2/3">
         {{ recipe.description }}
       </p>
     </section>
