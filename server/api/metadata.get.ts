@@ -1,5 +1,5 @@
 import urlMetadata from 'url-metadata';
-import { Result } from 'url-metadata';
+import type { Result } from 'url-metadata';
 import type { Thing, Recipe, HowToSection } from 'schema-dts';
 
 type RecipeMetadataResponse = {
@@ -12,6 +12,12 @@ type RecipeMetadataResponse = {
   preparation?: string | string[];
   metadata?: Result;
 };
+
+function validateUrl(originalUrl: string) {
+  const url = new URL(originalUrl)
+  if (url.protocol === 'http:') url.protocol = 'https:'
+  return url.href
+}
 
 function parseInstructions(
   instructions: Recipe['recipeInstructions']
@@ -77,7 +83,7 @@ export default defineCachedEventHandler(async (event) => {
       url: metadata['og:url'] || metadata?.url,
       title: title || metadata['og:title'] || metadata?.title,
       author: author || metadata?.author || metadata['article:author'],
-      image: metadata['og:image'] || metadata?.image,
+      image: validateUrl(metadata['og:image'] || metadata?.image),
       description:
         description || metadata['og:description'] || metadata?.description,
       ingredients,

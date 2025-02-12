@@ -1,4 +1,4 @@
-import type { Database } from '@/types/database.types';
+import type { Database, Json } from '@/types/database.types';
 import type { CreateRecipe } from '@/types/recipe.types';
 import type { RecipeInformation } from '@/types/spoonacular.types';
 
@@ -21,7 +21,7 @@ function extendRecipe(extended: RecipeInformation, original: CreateRecipe) {
       nutrients: extended.nutrition.nutrients,
       caloric_breakdown: extended.nutrition.caloricBreakdown,
       weight_per_serving: extended.nutrition.weightPerServing,
-    },
+    } as unknown as Json,
   };
 
   return combinedRecipe;
