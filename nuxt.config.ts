@@ -74,6 +74,7 @@ export default defineNuxtConfig({
       'assets.bonappetit.com',
       'static01.nyt.com',
       'images.squarespace-cdn.com',
+      'static1.squarespace.com',
       'res.cloudinary.com',
     ],
   },
