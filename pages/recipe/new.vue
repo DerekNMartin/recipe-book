@@ -82,8 +82,6 @@ async function handleAutoFill() {
     setNewRecipeValue('description', metadata?.description);
     setNewRecipeValue('ingredients', metadata?.ingredients);
     setNewRecipeValue('preparation', metadata?.preparation);
-  } catch (error) {
-    console.log(error);
   } finally {
     isLoadingMetadata.value = false;
   }
@@ -100,7 +98,7 @@ const canCreateRecipe = computed(() => {
 
 <template>
   <div>
-    <section class="flex flex-col gap-4 items-center mb-8">
+    <section class="gap-4 flex items-center mb-8 flex-col">
       <Transition name="fade">
         <h2
           v-if="newRecipe.title.value"

@@ -27,6 +27,14 @@ Uses the following prompt:
 
 For autofilling recipes, fetch and parse the [jsonld metadata](https://developers.google.com/search/docs/appearance/structured-data/recipe):
 
+## Supabase
+
+[Generating types using Supabase CLI](https://supabase.com/docs/guides/api/rest/generating-types)
+
+- Retrieve `PROJECT_ID` from Supabase dashboard
+
+`npx supabase gen types typescript --project-id "$PROJECT_ID" --schema public > database.types.ts`
+
 ## Setup
 
 Make sure to install the dependencies:
