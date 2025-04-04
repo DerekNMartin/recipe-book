@@ -1,12 +1,8 @@
 <script setup lang="ts">
 /**
  * TODO/ideas:
- * - view all recipes
- * - add recipe
- * - edit/edit/rate recipe
  * - upload image from desktop/url
  * - upload image and date when made/eaten
- * - auto-parse copy-pasted ingredients list and steps into array of strings
  */
 </script>
 <template>
