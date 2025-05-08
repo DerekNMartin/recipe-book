@@ -24,7 +24,7 @@ const props = defineProps<{ recipe: Recipe | RecipesResponse[number] }>();
     </NuxtLink>
     <div class="flex flex-col gap-1 p-4 bg-white z-10">
       <NuxtLink :to="{ name: 'recipe-recipeId', params: { recipeId: recipe.id } }">
-        <h3>{{ recipe.title }}</h3>
+        <h3 class="text-2xl">{{ recipe.title }}</h3>
       </NuxtLink>
       <span class="flex items-center gap-2">
         <span class="w-6 h-[2px] bg-primary-700 block rounded" />

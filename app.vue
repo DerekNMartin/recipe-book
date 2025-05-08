@@ -29,7 +29,7 @@ h3 {
 h1,
 h2,
 h3 {
-  font-family: 'Permanent Marker', sans-serif;
+  font-family: 'Climate Crisis', sans-serif;
 }
 
 button.p-button {
