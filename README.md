@@ -5,6 +5,8 @@ Built to catalog all the recipes my partner and I have cooked and enjoyed - with
 Various recipe website are either behind a paywall, clogged by advertisements, and/or include endless paragraphs of drivel for SEO purposes.
 We just wanted a place to store our favourite recipes, so they're easy to find and come back to.
 
+Able to automatically pull recipe details from a recipe website's SEO metadata and JSON-LD content.
+
 ![image](https://github.com/user-attachments/assets/8686d847-a012-4f8b-88de-3af21e41847b)
 
 **Autofill recipe details at the click of a button!**
