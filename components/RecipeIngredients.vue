@@ -16,13 +16,12 @@ const emit = defineEmits(['save']);
 
 const { isAuthenticated } = useAuth();
 
-const editedIngredients = ref(props.ingredients);
-
 const isEditing = ref(false);
 function toggleEditMode() {
   isEditing.value = !isEditing.value;
 }
 
+const editedIngredients = ref(props.ingredients);
 function handleSave() {
   emit('save', { ingredients: editedIngredients.value });
   toggleEditMode();
@@ -60,10 +59,7 @@ const { copy: copyAllIngredients, copied } = useClipboard({
         <InputList listType="bullet" v-model:items="editedIngredients" />
         <Button label="Save Changes" class="mt-4 w-full" @click="handleSave" />
       </div>
-      <ul
-        v-else
-        class="list-disc list-inside flex flex-col gap-2 print:text-sm"
-      >
+      <ul v-else class="list-disc list-inside flex flex-col gap-2 print:text-sm">
         <li
           v-for="(ingredient, index) in ingredients"
           :key="index"
