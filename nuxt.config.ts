@@ -35,8 +35,9 @@ const Noir = definePreset(Aura, {
       },
       dark: {
         primary: {
-          color: '{slate.50}',
-          inverseColor: '{slate.950}',
+          color: '{indigo.700}',
+          contrastColor: '{slate.950}',
+          inverseColor: '{indigo.700}',
           hoverColor: '{slate.100}',
           activeColor: '{slate.200}',
         },
@@ -86,6 +87,9 @@ export default defineNuxtConfig({
     options: {
       theme: {
         preset: Noir,
+        options: {
+          darkModeSelector: false
+        }
       },
     },
   },
