@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Recipe } from '@/types/recipe.types.js';
-import type { RecipesResponse } from '~/server/api/recipes.get';
+import type { RecipesGet } from '~/server/api/recipes.get';
 
-const props = defineProps<{ recipe: Recipe | RecipesResponse[number] }>();
+defineProps<{ recipe: Recipe | RecipesGet[number] }>();
 </script>
 
 <template>
