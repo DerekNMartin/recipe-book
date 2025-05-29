@@ -1,3 +1,5 @@
+const isAuthModalVisible = ref(false);
+
 export default function useAuth() {
   const { auth } = useSupabaseClient();
 
@@ -16,5 +18,5 @@ export default function useAuth() {
     return auth.signOut();
   }
 
-  return { user, isAuthenticated, useSignIn, useSignUp, useSignOut };
+  return { user, isAuthenticated, useSignIn, useSignUp, useSignOut, isAuthModalVisible };
 }

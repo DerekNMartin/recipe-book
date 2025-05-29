@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { Analytics } from '@vercel/analytics/nuxt';
-import useAuth from '@/composables/useAuth';
-
-const { isAuthenticated } = useAuth();
-const isAuthModalVisible = ref(!isAuthenticated.value);
 </script>
 
 <template>
@@ -11,7 +7,7 @@ const isAuthModalVisible = ref(!isAuthenticated.value);
     <LayoutHeader />
     <slot />
     <LayoutFooter />
-    <AuthModal v-model:visible="isAuthModalVisible" />
+    <AuthModal />
     <Analytics />
     <BaseToast />
   </main>
