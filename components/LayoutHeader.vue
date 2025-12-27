@@ -11,9 +11,6 @@ const { isAuthenticated, isAuthModalVisible } = useAuth();
       <h1 class="text-3xl font-bold text-primary-700">Recipes</h1>
     </NuxtLink>
     <div class="flex gap-4">
-      <NuxtLink v-if="isAuthenticated" :to="{ name: 'recipe-generate' }">
-        <Button icon="pi pi-sparkles" class="aspect-square" />
-      </NuxtLink>
       <NuxtLink v-if="isAuthenticated" :to="{ name: 'recipe-new' }">
         <Button icon="pi pi-plus" class="aspect-square" />
       </NuxtLink>
