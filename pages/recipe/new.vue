@@ -44,26 +44,24 @@ const newRecipe = reactive({
 
 async function addRecipe() {
   const DEFAULT_SERVINGS = 4;
-  const payload = Object.keys(newRecipe).reduce<
-    Record<string, string | string[] | number>
-  >((acc, curr) => {
-    acc[curr] = newRecipe[curr as keyof typeof newRecipe].value;
-    return acc;
-  }, {});
+  const payload = Object.keys(newRecipe).reduce<Record<string, string | string[] | number>>(
+    (acc, curr) => {
+      acc[curr] = newRecipe[curr as keyof typeof newRecipe].value;
+      return acc;
+    },
+    {}
+  );
   payload.servings = DEFAULT_SERVINGS;
-  await $fetch('/api/recipes', {
+  const response = await $fetch('/api/recipes', {
     method: 'post',
     body: {
       recipe: payload,
     },
   });
-  router.replace('/');
+  router.replace(response ? `/recipe/${response.id}` : '/');
 }
 
-function setNewRecipeValue(
-  key: keyof typeof newRecipe,
-  value: string | string[] | undefined
-) {
+function setNewRecipeValue(key: keyof typeof newRecipe, value: string | string[] | undefined) {
   if (value) newRecipe[key].value = value;
 }
 
@@ -100,10 +98,7 @@ const canCreateRecipe = computed(() => {
   <div>
     <section class="gap-4 flex items-center mb-8 flex-col">
       <Transition name="fade">
-        <h2
-          v-if="newRecipe.title.value"
-          class="text-5xl font-bold leading-[3.5rem] text-center"
-        >
+        <h2 v-if="newRecipe.title.value" class="text-5xl font-bold leading-[3.5rem] text-center">
           {{ newRecipe.title.value }}
         </h2>
       </Transition>
@@ -165,10 +160,7 @@ const canCreateRecipe = computed(() => {
           <label class="recipe-input__label">
             {{ newRecipe.description.label }}
           </label>
-          <Textarea
-            v-model="newRecipe.description.value"
-            style="field-sizing: content"
-          />
+          <Textarea v-model="newRecipe.description.value" style="field-sizing: content" />
         </div>
       </section>
       <div class="flex flex-col gap-4">
