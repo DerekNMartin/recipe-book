@@ -7,7 +7,7 @@ defineProps<{ recipe: Recipe | RecipesGet[number] }>();
 
 <template>
   <article
-    class="rounded-2xl overflow-hidden flex flex-col justify-end h-full max-h-96 transition-transform aspect-[4/3] group hover:rotate-1 duration-300 origin-bottom-right bg-primary-700"
+    class="rounded-3xl overflow-hidden flex flex-col justify-end h-full max-h-96 transition-transform aspect-[4/3] group hover:rotate-1 duration-300 origin-bottom-right bg-primary-700"
   >
     <NuxtLink
       :to="{ name: 'recipe-recipeId', params: { recipeId: recipe.id } }"
@@ -18,7 +18,7 @@ defineProps<{ recipe: Recipe | RecipesGet[number] }>();
         fit="cover"
         width="500"
         format="webp"
-        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 rounded-xl"
+        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 rounded-2xl"
         :alt="recipe.title || undefined"
       />
     </NuxtLink>

@@ -7,18 +7,21 @@ const debouncedSearchValue = refDebounced(searchValue, 500);
 const currentPage = ref(0);
 const totalRecipeCount = ref(0);
 const allRecipes = ref<RecipesGet>([]);
-const { data: recipesResult } = useFetch('/api/recipes', {
+const { data: recipesResult, status } = useFetch('/api/recipes', {
   query: { page: currentPage, search: debouncedSearchValue },
   watch: [currentPage, debouncedSearchValue],
 });
+const isLoading = computed(() => status.value === 'pending');
 
+const { arrivedState } = useScroll(window);
 const hasMore = computed(() => allRecipes.value.length < totalRecipeCount.value);
-
 function fetchNext() {
   currentPage.value++;
 }
+watch(arrivedState, () => {
+  if (arrivedState.bottom && hasMore.value && !isLoading.value) fetchNext();
+});
 
-// 4. Handle Data Arrival
 watch(
   recipesResult,
   (newResult: RecipesResponse) => {
@@ -28,7 +31,7 @@ watch(
       allRecipes.value = newResult.recipes;
     } else {
       // If we are on page 1+, APPEND to the list
-      allRecipes.value = [...allRecipes.value, ...newResult.recipes];
+      allRecipes.value.push(...newResult.recipes);
     }
 
     totalRecipeCount.value = newResult.meta.total;
@@ -39,7 +42,9 @@ watch(
 
 <template>
   <div class="flex flex-col gap-8">
-    <InputText type="text" v-model="searchValue" placeholder="Search recipes..." />
+    <section class="sticky top-0 py-2 bg-amber-50 z-20">
+      <InputText class="w-full" type="text" v-model="searchValue" placeholder="Search recipes..." />
+    </section>
     <TransitionGroup
       name="fade"
       tag="section"
@@ -47,11 +52,15 @@ watch(
     >
       <RecipeCard :recipe="recipe" v-for="recipe in allRecipes" :key="recipe.id" />
     </TransitionGroup>
-    <div v-if="allRecipes.length === 0 && debouncedSearchValue" class="text-center text-gray-500">
-      No recipes found for "{{ debouncedSearchValue }}"
-    </div>
-    <section v-if="hasMore" class="flex justify-center">
-      <Button outlined @click="fetchNext()">Load More</Button>
-    </section>
+    <Transition>
+      <p v-if="allRecipes.length === 0 && debouncedSearchValue" class="text-center text-gray-400">
+        No recipes found for "{{ debouncedSearchValue }}"
+      </p>
+    </Transition>
+    <Transition>
+      <p v-if="!hasMore && allRecipes.length" class="text-center text-gray-400 my-8">
+        All Recipes Loaded
+      </p>
+    </Transition>
   </div>
 </template>
