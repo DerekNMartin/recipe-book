@@ -4,7 +4,7 @@ const { isAuthenticated, isAuthModalVisible } = useAuth();
 </script>
 <template>
   <header
-    class="flex justify-between mb-8 pb-8 border-b-2 border-solid border-primary-700 print:hidden"
+    class="flex justify-between border-b-2 border-solid border-primary-700 print:hidden sm:py-8 sm:px-12 p-6"
   >
     <NuxtLink to="/" class="group flex items-center gap-1">
       <img src="~/assets/logo.svg" class="w-10 -rotate-6 group-hover:animate-wiggle" />

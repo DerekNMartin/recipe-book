@@ -46,7 +46,7 @@ function handleSave() {
       </div>
     </div>
     <div v-else class="flex gap-2 items-end">
-      <h2 class="sm:text-5xl text-3xl font-bold sm:leading-[3.5rem] text-center">
+      <h2 class="sm:text-5xl text-3xl font-bold sm:leading-[3.5rem] text-center print:text-3xl">
         {{ props.title }}
       </h2>
       <Button

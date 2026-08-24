@@ -14,8 +14,13 @@
 </template>
 
 <style>
+:root {
+  --font-default: 'Montserrat';
+  --font-fancy: 'Climate Crisis';
+}
+
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-default), sans-serif;
   overflow-y: scroll !important;
 }
 
@@ -29,7 +34,7 @@ h3 {
 h1,
 h2,
 h3 {
-  font-family: 'Climate Crisis', sans-serif;
+  font-family: var(--font-fancy), sans-serif;
 }
 
 button.p-button {
@@ -37,7 +42,7 @@ button.p-button {
 }
 
 .p-button-label {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-default), sans-serif;
 }
 
 .fade-enter-active,

@@ -43,7 +43,7 @@ const { copy: copyAllIngredients, copied } = useClipboard({
 
 <template>
   <section>
-    <div class="flex gap-2 items-center mb-4">
+    <div class="flex gap-2 items-center mb-6">
       <h3 class="text-2xl">Ingredients</h3>
       <Button
         v-if="props.editable && isAuthenticated"

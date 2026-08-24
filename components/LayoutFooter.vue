@@ -6,15 +6,9 @@ const { isAuthenticated, useSignOut } = useAuth();
 
 <template>
   <footer
-    class="flex flex-1 place-content-end mt-8 w-full justify-between border-t-2 border-solid border-primary-700 pt-6 items-center"
+    class="flex flex-1 place-content-end w-full justify-between border-t-2 border-solid border-primary-700 items-center sm:py-8 sm:px-12 p-6 print:hidden"
   >
     <p>Made by Derek Martin</p>
-    <Button
-      v-if="isAuthenticated"
-      outlined
-      @click="useSignOut"
-      size="small"
-      label="Sign Out"
-    />
+    <Button v-if="isAuthenticated" outlined @click="useSignOut" size="small" label="Sign Out" />
   </footer>
 </template>

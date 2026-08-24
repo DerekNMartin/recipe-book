@@ -88,8 +88,8 @@ export default defineNuxtConfig({
       theme: {
         preset: Noir,
         options: {
-          darkModeSelector: false
-        }
+          darkModeSelector: false,
+        },
       },
     },
   },
@@ -97,6 +97,9 @@ export default defineNuxtConfig({
     config: {
       theme: {
         extend: {
+          fontFamily: {
+            fancy: ['Climate Crisis', 'cursive', 'sans-serif'],
+          },
           colors: {
             primary: colors.indigo,
           },

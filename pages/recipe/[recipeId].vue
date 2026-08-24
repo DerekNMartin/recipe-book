@@ -43,8 +43,9 @@ function handlePrint() {
 </script>
 
 <template>
-  <div v-if="recipe" class="flex flex-col gap-8">
-    <section class="flex flex-col items-center sm:gap-12 print:gap-8 gap-8">
+  <div v-if="recipe" class="flex flex-col">
+    <!-- HEADING SECTION -->
+    <section class="flex flex-col items-center sm:gap-12 print:gap-8 gap-8 sm:py-8 sm:px-12 p-6">
       <RecipeTitle :title="recipe.title" @save="saveChanges" />
       <div class="flex gap-2">
         <p>{{ recipe.author }}</p>
@@ -71,27 +72,32 @@ function handlePrint() {
       <div class="print:hidden">
         <Rating v-model="recipeRating" class="flex gap-1" />
       </div>
-      <RecipeNutrition :nutrition="recipe.nutrition" />
+      <RecipeNutrition class="print:hidden" :nutrition="recipe.nutrition" />
     </section>
+    <!-- DESCRIPTION SECTION -->
     <section class="flex flex-col gap-6 items-center border-y-2 border-primary-700 py-8">
       <p class="sm:text-xl text-center print:text-base sm:w-2/3">
         {{ recipe.description }}
       </p>
     </section>
-    <div class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:px-8 gap-8 print:grid-cols-1 print:px-0">
-      <RecipeIngredients :ingredients="recipe.ingredients" @save="saveChanges" />
+    <div class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 gap-8 print:grid-cols-1">
+      <RecipeIngredients
+        class="p-6 sm:px-8 print:px-0"
+        :ingredients="recipe.ingredients"
+        @save="saveChanges"
+      />
       <RecipePreparation
-        class="sm:border-l-2 sm:border-t-0 border-t-2 border-solid border-primary-700 sm:pl-8 pt-8 sm:pt-0 print:border-l-0 print:pt-8 print:pl-0 print:border-t-2"
+        class="sm:border-l-2 sm:border-t-0 border-t-2 border-solid border-primary-700 p-6 sm:px-8 print:border-l-0 print:pt-8 print:px-0 print:border-t-2"
         :steps="recipe.preparation"
         @save="saveChanges"
       />
     </div>
     <RecipeNotes
-      class="border-t-2 border-solid border-primary-700 pt-8"
+      class="border-t-2 border-solid border-primary-700 p-6 sm:p-8 print:px-0"
       :notes="recipe.notes"
       @save="saveChanges"
     />
-    <section class="flex justify-between" v-if="isAuthenticated">
+    <section class="flex justify-between p-6 sm:px-8 print:px-0" v-if="isAuthenticated">
       <Button
         class="w-fit"
         label="Download Recipe"

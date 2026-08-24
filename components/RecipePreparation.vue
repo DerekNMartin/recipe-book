@@ -27,7 +27,7 @@ function handleSave() {
 
 <template>
   <section>
-    <div class="flex gap-2 items-center mb-4">
+    <div class="flex gap-2 items-center mb-6">
       <h3 class="text-2xl">Preparation</h3>
       <Button
         v-if="props.editable && isAuthenticated"
@@ -43,14 +43,14 @@ function handleSave() {
         <InputList listType="decimal" input-type="textarea" :items="editedSteps" />
         <Button label="Save Changes" class="mt-4 w-full" @click="handleSave" />
       </div>
-      <ul v-else class="flex flex-col gap-6 text-lg print:text-base">
-        <li class="text-primary-700" v-for="(step, index) in steps" :key="index">
-          <h3 class="text-4xl font-black mr-4 inline-block">
-            {{ index + 1 }}
-          </h3>
+      <ol
+        v-else
+        class="flex flex-col gap-6 text-lg print:text-base marker:content-[counter(list-item)'\a0\a0'] list-inside text-primary-700 marker:font-fancy marker:text-3xl"
+      >
+        <li v-for="(step, index) in steps" :key="index">
           {{ step }}
         </li>
-      </ul>
+      </ol>
     </Transition>
   </section>
 </template>

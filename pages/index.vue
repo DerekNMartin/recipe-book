@@ -41,9 +41,18 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-8">
-    <section class="sticky top-0 py-2 bg-amber-50 z-20">
-      <InputText class="w-full" type="text" v-model="searchValue" placeholder="Search recipes..." />
+  <div class="flex flex-col gap-8 sm:py-8 sm:px-12 p-6">
+    <section class="sticky top-0 py-4 bg-amber-50 z-20">
+      <IconField>
+        <InputIcon class="pi pi-search" />
+        <InputText
+          class="w-full"
+          size="large"
+          v-model="searchValue"
+          placeholder="Search recipes..."
+        />
+        <InputIcon v-if="isLoading && searchValue" class="pi pi-spinner animate-spin" />
+      </IconField>
     </section>
     <TransitionGroup
       name="fade"
@@ -52,12 +61,12 @@ watch(
     >
       <RecipeCard :recipe="recipe" v-for="recipe in allRecipes" :key="recipe.id" />
     </TransitionGroup>
-    <Transition>
+    <Transition name="fade">
       <p v-if="allRecipes.length === 0 && debouncedSearchValue" class="text-center text-gray-400">
         No recipes found for "{{ debouncedSearchValue }}"
       </p>
     </Transition>
-    <Transition>
+    <Transition name="fade">
       <p v-if="!hasMore && allRecipes.length" class="text-center text-gray-400 my-8">
         All Recipes Loaded
       </p>

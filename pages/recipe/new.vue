@@ -95,14 +95,15 @@ const canCreateRecipe = computed(() => {
 </script>
 
 <template>
-  <div>
-    <section class="gap-4 flex items-center mb-8 flex-col">
-      <Transition name="fade">
+  <div class="sm:py-8 sm:px-12 p-6">
+    <Transition name="fade">
+      <section
+        v-if="newRecipe.title.value || newRecipe.image_url.value"
+        class="gap-6 flex items-center flex-col p-8"
+      >
         <h2 v-if="newRecipe.title.value" class="text-5xl font-bold leading-[3.5rem] text-center">
           {{ newRecipe.title.value }}
         </h2>
-      </Transition>
-      <Transition name="fade">
         <NuxtImg
           v-if="newRecipe.image_url.value"
           :src="newRecipe.image_url.value"
@@ -112,14 +113,8 @@ const canCreateRecipe = computed(() => {
           class="rounded-3xl max-h-64 max-w-64 object-cover aspect-square"
           :alt="newRecipe.title.value || undefined"
         />
-      </Transition>
-      <Button
-        label="Create Recipe"
-        @click="addRecipe"
-        :disabled="!canCreateRecipe"
-        icon="pi pi-plus"
-      />
-    </section>
+      </section>
+    </Transition>
     <div class="grid md:grid-cols-[1fr,2fr] grid-cols-1 gap-4">
       <section class="recipe-input-section max-h-fit">
         <div class="recipe-input-container w-full">
@@ -162,6 +157,12 @@ const canCreateRecipe = computed(() => {
           </label>
           <Textarea v-model="newRecipe.description.value" style="field-sizing: content" />
         </div>
+        <Button
+          label="Create Recipe"
+          @click="addRecipe"
+          :disabled="!canCreateRecipe"
+          icon="pi pi-plus"
+        />
       </section>
       <div class="flex flex-col gap-4">
         <section class="recipe-input-section">
