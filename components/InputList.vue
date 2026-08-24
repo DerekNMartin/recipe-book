@@ -44,9 +44,7 @@ function handleAdd() {
 }
 
 const editItemIndex = ref<number | null>(null);
-const isEditing = computed(
-  () => editItemIndex.value !== null && editItemIndex.value >= 0
-);
+const isEditing = computed(() => editItemIndex.value !== null && editItemIndex.value >= 0);
 function handleEdit(itemIndex: number) {
   const item = items.value && items.value[itemIndex];
   if (item) {
@@ -137,10 +135,7 @@ async function handlePaste(event: ClipboardEvent) {
           </div>
           <!-- CENTER -->
           <div class="flex flex-1 w-full items-center">
-            <p
-              class="cursor-pointer sm:text-base text-sm"
-              @click="handleEdit(index)"
-            >
+            <p class="cursor-pointer sm:text-base text-sm" @click="handleEdit(index)">
               {{ element.text }}
             </p>
           </div>

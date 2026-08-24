@@ -61,26 +61,28 @@ function handlePrint() {
           </p>
         </a>
       </div>
-      <NuxtImg
-        :src="recipe.image_url || undefined"
-        fit="cover"
-        width="500"
-        format="webp"
-        class="rounded-3xl max-h-64 max-w-64 aspect-square object-cover"
-        :alt="recipe.title || undefined"
-      />
+      <div class="max-h-64 max-w-64 rounded-3xl border-2 border-primary-700 p-2">
+        <NuxtImg
+          :src="recipe.image_url || undefined"
+          fit="cover"
+          width="500"
+          format="webp"
+          class="rounded-2xl aspect-square object-cover"
+          :alt="recipe.title || undefined"
+        />
+      </div>
       <div class="print:hidden">
         <Rating v-model="recipeRating" class="flex gap-1" />
       </div>
       <RecipeNutrition class="print:hidden" :nutrition="recipe.nutrition" />
     </section>
     <!-- DESCRIPTION SECTION -->
-    <section class="flex flex-col gap-6 items-center border-y-2 border-primary-700 py-8">
+    <section class="flex flex-col gap-6 items-center border-y-2 border-primary-700 sm:py-8 p-6">
       <p class="sm:text-xl text-center print:text-base sm:w-2/3">
         {{ recipe.description }}
       </p>
     </section>
-    <div class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 gap-8 print:grid-cols-1">
+    <section class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:gap-8 print:grid-cols-1">
       <RecipeIngredients
         class="p-6 sm:px-8 print:px-0"
         :ingredients="recipe.ingredients"
@@ -91,7 +93,7 @@ function handlePrint() {
         :steps="recipe.preparation"
         @save="saveChanges"
       />
-    </div>
+    </section>
     <RecipeNotes
       class="border-t-2 border-solid border-primary-700 p-6 sm:p-8 print:px-0"
       :notes="recipe.notes"

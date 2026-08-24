@@ -101,18 +101,23 @@ const canCreateRecipe = computed(() => {
         v-if="newRecipe.title.value || newRecipe.image_url.value"
         class="gap-6 flex items-center flex-col p-8"
       >
-        <h2 v-if="newRecipe.title.value" class="text-5xl font-bold leading-[3.5rem] text-center">
+        <h2
+          v-if="newRecipe.title.value"
+          class="sm:text-5xl text-3xl font-bold sm:leading-[3.5rem] text-center"
+        >
           {{ newRecipe.title.value }}
         </h2>
-        <NuxtImg
-          v-if="newRecipe.image_url.value"
-          :src="newRecipe.image_url.value"
-          fit="cover"
-          width="500"
-          format="webp"
-          class="rounded-3xl max-h-64 max-w-64 object-cover aspect-square"
-          :alt="newRecipe.title.value || undefined"
-        />
+        <div class="max-h-64 max-w-64 rounded-3xl border-2 border-primary-700 p-2 aspect-square">
+          <NuxtImg
+            v-if="newRecipe.image_url.value"
+            :src="newRecipe.image_url.value"
+            fit="cover"
+            width="500"
+            format="webp"
+            class="rounded-2xl object-cover h-full w-full"
+            :alt="newRecipe.title.value || undefined"
+          />
+        </div>
       </section>
     </Transition>
     <div class="grid md:grid-cols-[1fr,2fr] grid-cols-1 gap-4">

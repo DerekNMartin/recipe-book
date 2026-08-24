@@ -46,7 +46,7 @@ watch(
       <IconField>
         <InputIcon class="pi pi-search" />
         <InputText
-          class="w-full"
+          class="w-full !border-2"
           size="large"
           v-model="searchValue"
           placeholder="Search recipes..."
@@ -57,7 +57,7 @@ watch(
     <TransitionGroup
       name="fade"
       tag="section"
-      class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-1 gap-6 h-fit"
+      class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-1 gap-6 justify-items-stretch"
     >
       <RecipeCard :recipe="recipe" v-for="recipe in allRecipes" :key="recipe.id" />
     </TransitionGroup>
