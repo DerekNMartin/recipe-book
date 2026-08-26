@@ -20,7 +20,7 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.1.0",
     "schema-dts": "^1.1.2",
-    "url-metadata": "^4.1.1",
+    "url-metadata": "^5.10.0",
     "vue": "latest",
     "vue-router": "latest",
     "vuedraggable": "^4.1.0"

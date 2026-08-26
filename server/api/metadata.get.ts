@@ -14,9 +14,9 @@ type RecipeMetadataResponse = {
 };
 
 function validateUrl(originalUrl: string) {
-  const url = new URL(originalUrl)
-  if (url.protocol === 'http:') url.protocol = 'https:'
-  return url.href
+  const url = new URL(originalUrl);
+  if (url.protocol === 'http:') url.protocol = 'https:';
+  return url.href;
 }
 
 function parseInstructions(
@@ -24,9 +24,7 @@ function parseInstructions(
 ): string | string[] | undefined {
   if (typeof instructions === 'string') return instructions;
   if (Array.isArray(instructions)) {
-    const isSection = instructions?.some(
-      (item) => item['@type'] === 'HowToSection'
-    );
+    const isSection = instructions?.some((item) => item['@type'] === 'HowToSection');
     if (isSection) {
       return instructions.reduce((steps, currentSection: HowToSection) => {
         if (Array.isArray(currentSection?.itemListElement)) {
@@ -37,9 +35,7 @@ function parseInstructions(
         return steps;
       }, []);
     }
-    return instructions?.map((item) =>
-      typeof item === 'string' ? item : item?.text
-    );
+    return instructions?.map((item) => (typeof item === 'string' ? item : item?.text));
   }
 }
 
@@ -68,7 +64,6 @@ function parseRecipeJsonLdContent(jsonld?: Thing) {
 export default defineCachedEventHandler(async (event) => {
   const query = getQuery(event);
   const requestUrl = query.url?.toString();
-  const isExpanded = Boolean(query.expanded);
   if (!requestUrl) {
     throw createError({
       statusCode: 400,
@@ -84,17 +79,32 @@ export default defineCachedEventHandler(async (event) => {
       title: title || metadata['og:title'] || metadata?.title,
       author: author || metadata?.author || metadata['article:author'],
       image: validateUrl(metadata['og:image'] || metadata?.image),
-      description:
-        description || metadata['og:description'] || metadata?.description,
+      description: description || metadata['og:description'] || metadata?.description,
       ingredients,
       preparation,
-      ...(isExpanded && { metadata }),
     };
     return returnRecipe;
   } catch (error) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: error?.message || 'Internal Server Error',
-    });
+    if (error instanceof Error) {
+      if (error.message.includes('402')) {
+        throw createError({
+          statusCode: 402,
+          message: 'Error Fetching Metadata: Payment Required',
+          cause: error,
+        });
+      }
+
+      throw createError({
+        statusCode: 500,
+        message: error.message,
+        cause: error,
+      });
+    } else {
+      throw createError({
+        statusCode: 500,
+        message: 'Error Fetching Metadata',
+        cause: error,
+      });
+    }
   }
 });

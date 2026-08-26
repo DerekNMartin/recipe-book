@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const router = useRouter();
+const toast = useToast();
 
 const newRecipe = reactive({
   title: {
@@ -23,19 +24,19 @@ const newRecipe = reactive({
     label: 'Description',
   },
   ingredients: {
-    value: [],
+    value: [] as string[],
     newValue: '',
     buttonLabel: 'Add Ingredient',
     label: 'Ingredients',
   },
   preparation: {
-    value: [],
+    value: [] as string[],
     newValue: '',
     buttonLabel: 'Add Step',
     label: 'Preparation',
   },
   notes: {
-    value: [],
+    value: [] as string[],
     newValue: '',
     buttonLabel: 'Add Note',
     label: 'Notes',
@@ -80,6 +81,14 @@ async function handleAutoFill() {
     setNewRecipeValue('description', metadata?.description);
     setNewRecipeValue('ingredients', metadata?.ingredients);
     setNewRecipeValue('preparation', metadata?.preparation);
+  } catch (error) {
+    if (error instanceof Error) {
+      toast.add({
+        severity: 'error',
+        summary: error.message,
+      });
+    }
+    console.error(error);
   } finally {
     isLoadingMetadata.value = false;
   }

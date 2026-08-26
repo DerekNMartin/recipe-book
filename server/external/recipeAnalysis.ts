@@ -17,7 +17,7 @@ const baseUrl = 'https://api.spoonacular.com';
  * @param recipe
  */
 async function analyzeRecipe(recipe: AnalyzeRecipeRequest) {
-  const url = `${baseUrl}/recipes/analyze`
+  const url = `${baseUrl}/recipes/analyze`;
   const data: RecipeInformation = await $fetch(url, {
     method: 'POST',
     params: { apiKey: process.env.SPOONACULAR_API_KEY, includeNutrition: true },
