@@ -7,7 +7,7 @@ const debouncedSearchValue = refDebounced(searchValue, 500);
 const currentPage = ref(0);
 const totalRecipeCount = ref(0);
 const allRecipes = ref<RecipesGet>([]);
-const { data: recipesResult, status } = useFetch('/api/recipes', {
+const { data: recipesResult, status } = await useFetch('/api/recipes', {
   query: { page: currentPage, search: debouncedSearchValue },
   watch: [currentPage, debouncedSearchValue],
 });
@@ -31,7 +31,7 @@ watch(
       allRecipes.value = newResult.recipes;
     } else {
       // If we are on page 1+, APPEND to the list
-      allRecipes.value.push(...newResult.recipes);
+      allRecipes.value = [...allRecipes.value, ...newResult.recipes];
     }
 
     totalRecipeCount.value = newResult.meta.total;
@@ -49,6 +49,7 @@ watch(
           class="w-full !border-2"
           size="large"
           v-model="searchValue"
+          @update:modelValue="currentPage = 0"
           placeholder="Search recipes..."
         />
         <InputIcon v-if="isLoading && searchValue" class="pi pi-spinner animate-spin" />
