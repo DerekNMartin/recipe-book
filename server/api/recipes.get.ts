@@ -46,7 +46,7 @@ export default defineEventHandler(async (event): Promise<RecipesResponse | undef
       'id, added_by, author, created_at, description, image_url, original_url, rating, title',
       { count: 'estimated' }
     )
-    .order('title', { ascending: true })
+    .order('created_at', { ascending: false }) // Most recent first
     .range(range.min, range.max);
 
   if (queryParams.search) {
