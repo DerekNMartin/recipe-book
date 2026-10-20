@@ -82,7 +82,7 @@ function handlePrint() {
         {{ recipe.description }}
       </p>
     </section>
-    <section class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 sm:gap-8 print:grid-cols-1">
+    <section class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 print:grid-cols-1">
       <RecipeIngredients
         class="p-6 sm:px-8 print:px-0"
         :ingredients="recipe.ingredients"

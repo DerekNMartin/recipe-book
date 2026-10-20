@@ -43,16 +43,24 @@ const { copy: copyAllIngredients, copied } = useClipboard({
 
 <template>
   <section>
-    <div class="flex gap-2 items-center mb-6">
+    <div class="flex gap-2 items-center mb-6 justify-between">
       <h3 class="text-2xl">Ingredients</h3>
-      <Button
-        v-if="props.editable && isAuthenticated"
-        icon="pi pi-pen-to-square"
-        text
-        rounded
-        aria-label="Edit"
-        @click="toggleEditMode"
-      />
+      <div class="flex gap-2">
+        <Button
+          text
+          rounded
+          :icon="`pi ${copied ? 'pi-check' : 'pi-copy'}`"
+          @click="copyAllIngredients()"
+        />
+        <Button
+          v-if="props.editable && isAuthenticated"
+          icon="pi pi-pen-to-square"
+          text
+          rounded
+          aria-label="Edit"
+          @click="toggleEditMode"
+        />
+      </div>
     </div>
     <Transition mode="out-in" name="fade">
       <div v-if="isEditing">
@@ -70,13 +78,5 @@ const { copy: copyAllIngredients, copied } = useClipboard({
         </li>
       </ul>
     </Transition>
-    <Button
-      :label="copied ? 'Copied!' : 'Copy Ingredients'"
-      outlined
-      size="small"
-      class="w-full mt-6"
-      icon="pi pi-copy"
-      @click="copyAllIngredients()"
-    />
   </section>
 </template>
