@@ -45,7 +45,7 @@ function handlePrint() {
 <template>
   <div v-if="recipe" class="flex flex-col">
     <!-- HEADING SECTION -->
-    <section class="flex flex-col items-center sm:gap-12 print:gap-8 gap-8 sm:py-8 sm:px-12 p-6">
+    <section class="flex flex-col items-center print:gap-8 gap-8 sm:py-8 sm:px-12 p-6">
       <RecipeTitle :title="recipe.title" @save="saveChanges" />
       <div class="flex gap-2">
         <p>{{ recipe.author }}</p>
@@ -71,17 +71,19 @@ function handlePrint() {
           :alt="recipe.title || undefined"
         />
       </div>
-      <div class="print:hidden">
-        <Rating v-model="recipeRating" class="flex gap-1" />
-      </div>
-      <RecipeNutrition class="print:hidden" :nutrition="recipe.nutrition" />
     </section>
+
     <!-- DESCRIPTION SECTION -->
-    <section class="flex flex-col gap-6 items-center border-y-2 border-primary-700 sm:py-8 p-6">
+    <section class="flex gap-6 items-center border-y-2 border-primary-700 sm:py-8 p-6 flex-col">
       <p class="sm:text-xl text-center print:text-base sm:w-2/3">
         {{ recipe.description }}
       </p>
+      <div class="flex flex-col gap-6 items-center print:hidden">
+        <Rating v-model="recipeRating" class="flex gap-1" />
+        <RecipeNutrition :nutrition="recipe.nutrition" />
+      </div>
     </section>
+
     <section class="grid sm:grid-cols-[1fr,2fr] grid-cols-1 print:grid-cols-1">
       <RecipeIngredients
         class="p-6 sm:px-8 print:px-0"
